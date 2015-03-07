@@ -1,2 +1,3 @@
-# riverflow
-A sails based app to show river conditions.
+# app
+
+a [Sails](http://sailsjs.org) application
