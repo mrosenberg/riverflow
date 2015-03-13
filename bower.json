@@ -1,0 +1,30 @@
+{
+  "name": "riverflow",
+  "version": "0.1.0",
+  "homepage": "https://github.com/mrosenberg/riverflow",
+  "authors": [
+    "mrosenberg <matthewrosenberg@comcast.net>"
+  ],
+  "description": "I can surf that",
+  "main": "app.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "river",
+    "flow",
+    "gauge"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "~5.5.1"
+  }
+}
