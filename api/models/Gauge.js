@@ -7,16 +7,29 @@
 
 module.exports = {
 
+  schema: true,
+
   attributes: {
   	id: {
-  		type: 'integer',
-  		required: true,
-  		primaryKey: true
+      type: 'integer',
+      primaryKey: true,
+      unique: true
   	},
-	measurements: {
-		collection: 'measurement',
-		via: 'id'
-	}
+    name: {
+      type: 'string',
+      required: true
+    },
+    status: {
+      type: 'string',
+      defaultsTo: 'off'
+    },
+    river: {
+      model: 'river'
+    },
+  	measurements: {
+  		collection: 'measurement',
+  		via: 'gaugeID'
+  	}
   }
 };
 

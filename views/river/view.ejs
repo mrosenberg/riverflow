@@ -1,0 +1,23 @@
+<a href="/rivers/edit/<%= river.id %>" class="button tiny right">Edit</a>
+
+<h1><%= river.name %></h1>
+<h2>Status: <%= river.status %></h2>
+
+<h3>Available Gauges</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% _.each(river.gauges, function(gauge) { %>
+      <tr>
+        <td><a href="/gauges/view/<%= gauge.id %>"><%= gauge.name %></a></td>
+        <td><%= gauge.status %></td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>

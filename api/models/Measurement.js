@@ -10,8 +10,9 @@ module.exports = {
   attributes: {
     id: {
       type: 'integer',
-      required: true,
-      primaryKey: true
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true
     },
   	values: {
   		type: 'json',
@@ -20,7 +21,11 @@ module.exports = {
   	dateTime: {
   		type: 'dateTime',
   		required: true
-  	}
+  	},
+    gaugeID: {
+      type: 'integer',
+      require: true
+    }
   }
 };
 

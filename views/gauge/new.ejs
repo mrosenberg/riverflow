@@ -1,0 +1,32 @@
+<form action="create" method="POST">
+
+  <div class="row">
+    <div class="large-12 columns">
+
+      <label>USGS ID
+        <input type="text" placeholder="02037500" name="id"/>
+      </label>
+
+
+      <label>Rivers
+        <select name="river">
+          <% _.each(rivers, function(river) { %>
+            <option value="<%= river.id%>"><%= river.name %></option>
+          <% }); %>
+        </select>
+      </label>
+
+      <div class="switch">
+        <input id="gauge-status" type="checkbox" name="status">
+        <label for="gauge-status">Active</label>
+      </div>
+
+      <label>Name
+        <input type="text" placeholder="James River" name="name"/>
+      </label>
+
+      <input type="submit" value="Save Gauge"/>
+
+    </div>
+  </div>
+</form>

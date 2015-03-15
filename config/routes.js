@@ -38,21 +38,5 @@ module.exports.routes = {
 
   '/admin': {
     view: 'admin/index'
-  },
-
-  '/admin/rivers': {
-    view: 'admin/rivers/index'
-  },
-
-  '/admin/rivers/add': {
-    view: 'admin/rivers/add'
-  },
-
-  '/admin/gauges': {
-    view: 'admin/gauges/index'
-  },
-
-  'admin/gauges/add': {
-    view: 'admin/gauges/add'
   }
 };

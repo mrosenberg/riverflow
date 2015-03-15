@@ -1,0 +1,34 @@
+<form action="/gauges/update/<%= gauge.id %>" method="POST">
+
+  <div class="row">
+
+    <div class="large-12 columns">
+
+      <label>Name
+        <input type="text" placeholder="James River" name="name" value="<%= gauge.name %>"/>
+      </label>
+
+      <label>USGS ID
+        <input type="text" placeholder="02037500" name="id" value="<%= gauge.id %>"/>
+      </label>
+
+      <label>River
+        <select name="river">
+          <% _.each(rivers, function(river) { %>
+            <option value="<%= river.id %>" <% if(river.id === gauge.riverID) {%> selected <% } %>>
+              <%= river.name %>
+            </option>
+          <% }); %>
+        </select>
+      </label>
+
+      <div class="switch">
+        <input id="gauge-status" type="checkbox" name="status" <% if('on' === gauge.status) {%> checked <%}%>>
+        <label for="gauge-status">Active</label>
+      </div>
+
+      <input type="submit" value="Save Gauge"/>
+
+    </div>
+  </div>
+</form>

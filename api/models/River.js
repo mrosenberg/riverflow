@@ -7,8 +7,27 @@
 
 module.exports = {
 
-  attributes: {
+  schema: true,
 
-  }
+	attributes: {
+		id: {
+      type: 'integer',
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true
+		},
+		name: {
+			type: 'string',
+			required: true
+		},
+    status: {
+      type: 'string',
+      defaultsTo: 'off'
+    },
+    gauges: {
+      collection: 'gauge',
+      via: 'river'
+    }
+	}
 };
 

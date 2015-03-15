@@ -1,0 +1,29 @@
+<a href="/admin/rivers/add" class="button tiny right">Add</a>
+
+<dl class="sub-nav">
+  <dt>Filter:</dt>
+  <dd class="active"><a href="#">All</a></dd>
+  <dd><a href="?status=active">Active</a></dd>
+  <dd><a href="?status=suspended">Suspended</a></dd>
+</dl>
+
+<h1>Rivers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>ID</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% _.each(rivers, function(river) { %>
+      <tr>
+        <td><a href="rivers/view/<%= river.id %>"><%= river.name %></a></td>
+        <td><%= river.id %></td>
+        <td><%= river.status %></td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
