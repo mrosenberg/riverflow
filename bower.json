@@ -25,6 +25,7 @@
     "tests"
   ],
   "dependencies": {
-    "foundation": "~5.5.1"
+    "foundation": "~5.5.1",
+    "typeahead.js": "~0.10.5"
   }
 }

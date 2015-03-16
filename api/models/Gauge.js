@@ -11,7 +11,7 @@ module.exports = {
 
   attributes: {
   	id: {
-      type: 'integer',
+      type: 'string',
       primaryKey: true,
       unique: true
   	},
@@ -28,7 +28,7 @@ module.exports = {
     },
   	measurements: {
   		collection: 'measurement',
-  		via: 'gaugeID'
+  		via: 'gauge'
   	}
   }
 };

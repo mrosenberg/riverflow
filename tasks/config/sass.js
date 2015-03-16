@@ -17,7 +17,10 @@ module.exports = function(grunt) {
 			options: {
 				compass: true,
 				debugInfo: true,
-				loadPath: 'bower_components/foundation/scss'
+				loadPath: [
+          'bower_components/foundation/scss',
+          'assets/styles/partials'
+        ]
 			},
 			files: [{
 				expand: true,

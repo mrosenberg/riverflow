@@ -33,10 +33,38 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': {
-    view: 'homepage'
+    controller: 'index',
+    action: 'index'
   },
 
-  '/admin': {
-    view: 'admin/index'
-  }
+  '/cron': {
+    controller: 'index',
+    action: 'cron'
+  },
+
+  '/search': {
+    controller: 'search',
+    action: 'index'
+  },
+
+  '/search/rivers/:term': {
+    controller: 'search',
+    action: 'searchRivers'
+  },
+
+  '/search/gauges/:term': {
+    controller: 'search',
+    action: 'searchGauges'
+  },
+
+  '/prefetch/rivers': {
+    controller: 'search',
+    action: 'preRivers'
+  },
+
+  '/prefetch/gauges': {
+    controller: 'search',
+    action: 'preGauges'
+  },
+
 };

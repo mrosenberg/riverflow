@@ -90,7 +90,17 @@ module.exports = {
         gauge:gauge
       });
     });
-  }
+  },
 
+
+  remove: function(req, res, next) {
+
+    Gauge.destroy({id:req.param('id')})
+    .exec(function(err){
+      if (err) return next(err);
+
+      res.redirect('gauges/');
+    });
+  }
 };
 
