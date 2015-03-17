@@ -82,12 +82,19 @@ module.exports = {
 
   view: function(req, res, next) {
 
-    Gauge.findOne(req.param('id'), function(err, gauge) {
+    Gauge.findOne(req.param('id'))
+    .populate('measurements', {sort: 'updatedAt DESC'})
+    .exec(function(err, gauge) {
       if (err) return next(err);
       if (!gauge) return next();
 
+      var flow = _.filter(gauge.measurements, {variableID: 45807197});
+      var height = _.filter(gauge.measurements, {variableID: 45807202});
+
       res.view({
-        gauge:gauge
+        gauge:gauge,
+        flow: flow[0],
+        height: height[0]
       });
     });
   },

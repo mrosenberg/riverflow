@@ -9,8 +9,9 @@ module.exports = {
 
   _saveMeasurement: function(id, metric) {
     Measurement.create({
-      gaugeID: id,
-      variableId: metric.variable.variableCode[0].variableID,
+      gauge: id,
+      dateTime: metric.values[0].value[0].dateTime,
+      variableID: metric.variable.variableCode[0].variableID,
       variableName: metric.variable.variableName,
       variableDescription: metric.variable.variableDescription,
       value: metric.values[0].value[0].value,

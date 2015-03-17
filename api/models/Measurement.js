@@ -30,6 +30,11 @@ module.exports = {
       type: 'string'
     },
 
+    dateTime: {
+      type: 'datetime',
+      required: true
+    },
+
     value: {
       type: 'string',
       required: true
@@ -37,11 +42,6 @@ module.exports = {
 
     unitAbbreviation: {
       type: 'string'
-    },
-
-    gaugeID: {
-      type: 'string',
-      required: true
     },
 
     gauge: {

@@ -12,6 +12,10 @@
         <input type="text" placeholder="02037500" name="id" value="<%= gauge.id %>"/>
       </label>
 
+      <label>NWS ID
+        <input type="text" placeholder="02037500" name="nwsID" value="<%= gauge.nwsID %>"/>
+      </label>
+
       <label>River
         <select name="river">
           <% _.each(rivers, function(river) { %>

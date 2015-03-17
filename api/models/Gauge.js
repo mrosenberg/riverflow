@@ -15,21 +15,34 @@ module.exports = {
       primaryKey: true,
       unique: true
   	},
+
+    nwsID: {
+      type: 'string',
+      defaultsTo: null
+    },
+
     name: {
       type: 'string',
       required: true
     },
+
     status: {
       type: 'string',
       defaultsTo: 'off'
     },
+
     river: {
       model: 'river'
     },
+
   	measurements: {
   		collection: 'measurement',
   		via: 'gauge'
-  	}
+  	},
+
+    measurements: {
+      collection: 'prediction',
+      via: 'gauge'
+    }
   }
 };
-

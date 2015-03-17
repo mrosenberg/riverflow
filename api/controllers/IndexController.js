@@ -12,7 +12,8 @@ module.exports = {
   },
 
   cron: function(req, res, next) {
-    UpdateGauges.run();
+    UpdateMeasurements.run();
+    UpdatePredictions.run();
     res.send();
   }
 

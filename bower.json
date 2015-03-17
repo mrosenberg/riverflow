@@ -26,6 +26,7 @@
   ],
   "dependencies": {
     "foundation": "~5.5.1",
-    "typeahead.js": "~0.10.5"
+    "typeahead.js": "~0.10.5",
+    "highcharts": "~4.1.4"
   }
 }
