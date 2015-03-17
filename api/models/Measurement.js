@@ -7,6 +7,8 @@
 
 module.exports = {
 
+  schema: true,
+
   attributes: {
 
     id: {
@@ -16,15 +18,31 @@ module.exports = {
       unique: true
     },
 
-  	values: {
-  		type: 'json',
-  		required: true
-  	},
+    variableID: {
+      type: 'integer'
+    },
 
-  	dateTime: {
-  		type: 'dateTime',
-  		required: true
-  	},
+    variableName: {
+      type: 'string'
+    },
+
+    variableDescription: {
+      type: 'string'
+    },
+
+    value: {
+      type: 'string',
+      required: true
+    },
+
+    unitAbbreviation: {
+      type: 'string'
+    },
+
+    gaugeID: {
+      type: 'string',
+      required: true
+    },
 
     gauge: {
       model: 'gauge'

@@ -7,6 +7,12 @@
 
 module.exports = {
 
+list: function() {
+  Measurement.find(function(metrics) {
+    console.log(metrics);
+
+  });
+}
 
 
 };

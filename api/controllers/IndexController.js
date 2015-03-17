@@ -13,6 +13,7 @@ module.exports = {
 
   cron: function(req, res, next) {
     UpdateGauges.run();
+    res.send();
   }
 
 };
