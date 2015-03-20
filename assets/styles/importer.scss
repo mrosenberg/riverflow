@@ -13,10 +13,13 @@
  * or any other Grunt tasks you like.)
  */
 
-
 @import 'foundation';
+@import '_variables';
 @import '_auto-search';
+@import '_register';
 
-body {
-  height:100vh;
+.inner-wrap {
+  min-height: 100vh;
 }
+
+

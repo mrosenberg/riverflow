@@ -40,7 +40,7 @@ module.exports = {
   		via: 'gauge'
   	},
 
-    measurements: {
+    predictions: {
       collection: 'prediction',
       via: 'gauge'
     }

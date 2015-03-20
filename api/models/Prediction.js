@@ -15,20 +15,17 @@ module.exports = {
       type: 'datetime'
     },
 
-    primaryValue: {
+    variableName: {
       type: 'string'
     },
 
-    primaryUnit: {
+    unitAbbreviation: {
       type: 'string',
     },
 
-    secondaryValue: {
-      type: 'string'
-    },
-
-    secondaryUnit: {
-      type: 'string'
+    value: {
+      type: 'string',
+      required: true
     },
 
     gauge: {

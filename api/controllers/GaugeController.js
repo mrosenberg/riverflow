@@ -19,6 +19,31 @@ module.exports = {
   },
 
 
+  reset: function(req, res, next) {
+
+    Measurement.destroy({
+      where: {
+        gauge: req.param('id')
+      }
+    })
+    .exec(function(err, results) {
+      if (err) console.log(err);
+      res.send(results);
+    });
+
+    Prediction.destroy({
+      where: {
+        gauge: req.param('id')
+      }
+    })
+    .exec(function(err, results) {
+      if (err) console.log(err);
+      res.send(results);
+    });
+
+  },
+
+
   new: function(req, res, next) {
     River.find(function(err, rivers) {
       if (err) return next(err);

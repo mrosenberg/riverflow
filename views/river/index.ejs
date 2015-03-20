@@ -1,4 +1,6 @@
-<a href="/admin/rivers/add" class="button tiny right">Add</a>
+<% if (session.authenticated) { %>
+  <a href="/rivers/new" class="button tiny right">Add</a>
+<% } %>
 
 <dl class="sub-nav">
   <dt>Filter:</dt>

@@ -13,6 +13,7 @@ module.exports = {
       if (!rivers) return next();
 
       res.view({
+        session: req.session,
         rivers:rivers
       });
     });
@@ -21,7 +22,7 @@ module.exports = {
 
   edit: function(req, res, next) {
 
-    River.findOne(req.param('id'), function(err, river) {
+    River.findOneById(req.param('id'), function(err, river) {
 
       if (err) {
         req.session.flash = {
@@ -40,7 +41,7 @@ module.exports = {
 
   update: function(req, res, next) {
 
-    River.update( req.param('id'), req.params.all(), function(err, river) {
+    River.update( {id: req.param('id') }, req.params.all(), function(err, river) {
 
       if (err) {
         req.session.flash = {
@@ -55,14 +56,6 @@ module.exports = {
 
 
   new: function(req, res) {
-    River.find(function(err, rivers) {
-      if (err) return next(err);
-      if (!river) return next();
-
-      res.view({
-        rivers: rivers,
-      });
-    });
     res.view();
   },
 
@@ -85,7 +78,8 @@ module.exports = {
 
   view: function(req, res, next) {
 
-    River.findOne(req.param('id')).populate('gauges').exec(function(err, river) {
+    River.findOneById(req.param('id')).populate('gauges').exec(function(err, river) {
+      console.log(river);
       if (err) return next(err);
       if (!river) return next();
 

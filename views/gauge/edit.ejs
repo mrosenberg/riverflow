@@ -1,3 +1,11 @@
+<form action="/gauges/remove/<%= gauge.id %>" method="POST">
+  <input type="submit" value="Delete Gauge"/>
+</form>
+
+<form action="/gauges/reset/<%= gauge.id %>" method="POST">
+  <input type="submit" value="Reset"/>
+</form>
+
 <form action="/gauges/update/<%= gauge.id %>" method="POST">
 
   <div class="row">
@@ -37,6 +45,4 @@
   </div>
 </form>
 
-<form action="/gauges/remove/<%= gauge.id %>" method="POST">
-  <input type="submit" value="Delete Gauge"/>
-</form>
+

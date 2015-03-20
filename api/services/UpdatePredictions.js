@@ -3,24 +3,17 @@ var request     = require('request'),
 
 module.exports = {
 
+
   _fetchGauges: function() {
-      return Gauge.find({where: {status: 'on'}});
+    return Gauge.find({where: {status: 'on'}});
   },
 
 
-  _savePrediction: function(id, metric) {
-    Prediction.create({
-      gauge: id,
-      dateTime: metric.values[0].value[0].dateTime,
-      variableID: metric.variable.variableCode[0].variableID,
-      variableName: metric.variable.variableName,
-      variableDescription: metric.variable.variableDescription,
-      value: metric.values[0].value[0].value,
-      unitAbbreviation: metric.variable.unit.unitAbbreviation
-    })
-    .exec(function(err) {
+  _savePrediction: function(metric) {
+    Prediction.create(metric)
+    .exec(function(err, results) {
       if (err) console.log(err);
-    })
+    });''
   },
 
 
@@ -35,21 +28,50 @@ module.exports = {
 
       parseString(body, function (err, result) {
         result.site.forecast[0].datum.map(function(metric) {
-console.log(metric);
+          var values = [];
+
+          values.push({
+            dateTime: metric.valid[0]._,
+            variableName: metric.primary[0]['$'].name,
+            unitAbbreviation: metric.primary[0]['$'].units,
+            value: metric.primary[0]._,
+            gauge: gauge.id
+          });
+
+          values.push({
+            dateTime: metric.valid[0]._,
+            variableName: metric.secondary[0]['$'].name,
+            unitAbbreviation: metric.secondary[0]['$'].units,
+            value: metric.secondary[0]._,
+            gauge: gauge.id
+          });
+
+         values.map(function(metric) {
+           self._savePrediction(metric);
+         });
+
         });
       });
-
-     // data.value.timeSeries.map(function(metric) {
-     //   self._savePrediction(gauge.id, metric);
-     // });
-
     });
+  },
+
+
+  _prune: function() {
+    Prediction.destroy({
+      dateTime: {
+        '=<' : new Date()
+      }
+    }).exec(function(err, results) {
+      if (err) console.log(err);
+    })
   },
 
 
   run: function() {
     var self   = this,
         gauges = this._fetchGauges();
+
+    this._prune();
 
     gauges.then(function(array) {
       _.each(array, function(gauge) {
