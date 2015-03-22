@@ -2,9 +2,32 @@
 
 
 <h1><%= gauge.name %></h1>
-<h3><%= gauge.status %></h3>
+<h2>Status <%= gauge.status %> and updated <%= updatedAgo %></h2>
 
-<h4>Latest readings</h4>
 
-<h1><%= flow.variableName %>: <%= flow.value %><%= flow.unitAbbreviation %></h1>
-<h1><%= height.variableName %>: <%= height.value %><%= height.unitAbbreviation %></h1>
+<ul>
+  <li>River Conditions
+    <ul>
+      <li>Flow: <%= flow.value %><%= flow.unitAbbreviation %></li>
+      <li>Height: <%= height.value %><%= height.unitAbbreviation %></li>
+    </ul>
+  </li>
+</ul>
+
+<ul>
+  <li>Weather
+    <ul>
+      <li>Condition: <%= weather.currently.summary %></li>
+      <li>Air Temp: <%= weather.currently.temperature %></li>
+      <li>Cloud Cover: <%= weather.currently.cloudCover %></li>
+      <li>Wind Speed: <%= weather.currently.windSpeed %></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="chart" data-chart-vars='<%- block('localScripts', flowChart) %>'></div>
+
+
+
+
+

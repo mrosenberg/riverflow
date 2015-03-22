@@ -53,7 +53,7 @@ module.exports.policies = {
 
   gauge: {
 
-    '*': 'sessionAuth',
+    '*': true,//'sessionAuth',
     'index': true,
     'view': true
 

@@ -1,83 +1,99 @@
-var request     = require('request'),
-    parseString = require('xml2js').parseString;
+var Promise  = require("bluebird"),
+    request  = Promise.promisify(require("request")),
+    parseXML = Promise.promisify(require('xml2js').parseString),
+    moment   = require('moment');
+
 
 module.exports = {
 
 
   _fetchGauges: function() {
+
     return Gauge.find({where: {status: 'on'}});
   },
 
 
   _savePrediction: function(metric) {
-    Prediction.create(metric)
-    .exec(function(err, results) {
-      if (err) console.log(err);
-    });''
+
+    return Prediction.create(metric);
+  },
+
+
+  _parse: function(gauge, data) {
+
+    return data.map(function(metric) {
+      var values = [];
+
+      values.push({
+        dateTime: metric.valid[0]._,
+        variableName: metric.primary[0]['$'].name,
+        unitAbbreviation: metric.primary[0]['$'].units,
+        value: metric.primary[0]._,
+        gauge: gauge.id
+      });
+
+      values.push({
+        dateTime: metric.valid[0]._,
+        variableName: metric.secondary[0]['$'].name,
+        unitAbbreviation: metric.secondary[0]['$'].units,
+        value: metric.secondary[0]._,
+        gauge: gauge.id
+      });
+
+      return values;
+    });
   },
 
 
   _request: function(gauge) {
-    var self, url;
+    var _this = this;
 
-    url  = 'http://water.weather.gov/ahps2/hydrograph_to_xml.php?output=xml&gage='+gauge.nwsID;
-    self = this;
-
-    request({url: url, gzip: true}, function (error, response, body) {
-      if (error || response.statusCode != 200) return;
-
-      parseString(body, function (err, result) {
-        result.site.forecast[0].datum.map(function(metric) {
-          var values = [];
-
-          values.push({
-            dateTime: metric.valid[0]._,
-            variableName: metric.primary[0]['$'].name,
-            unitAbbreviation: metric.primary[0]['$'].units,
-            value: metric.primary[0]._,
-            gauge: gauge.id
-          });
-
-          values.push({
-            dateTime: metric.valid[0]._,
-            variableName: metric.secondary[0]['$'].name,
-            unitAbbreviation: metric.secondary[0]['$'].units,
-            value: metric.secondary[0]._,
-            gauge: gauge.id
-          });
-
-         values.map(function(metric) {
-           self._savePrediction(metric);
-         });
-
-        });
-      });
+    return request({
+      url: 'http://water.weather.gov/ahps2/hydrograph_to_xml.php?output=xml&gage='+gauge.nwsID,
+      gzip: true
+    })
+    .then(function(data) {
+      return parseXML(data[0].body);
+    })
+    .then(function(data) {
+      return _this._parse(gauge, data.site.forecast[0].datum);
     });
   },
 
 
   _prune: function() {
-    Prediction.destroy({
-      dateTime: {
-        '=<' : new Date()
-      }
-    }).exec(function(err, results) {
-      if (err) console.log(err);
-    })
+    return Prediction.destroy();
   },
 
 
   run: function() {
-    var self   = this,
-        gauges = this._fetchGauges();
+    var _this = this;
 
-    this._prune();
+    return this._prune()
+    .then(function() {
+      return _this._fetchGauges();
+    })
+    .then(function(gauges) {
+      return Promise.map(gauges, _this._request);
+    })
+    .map(function(data) {
+      return Promise.map(data, _this._savePrediction);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
 
-    gauges.then(function(array) {
-      _.each(array, function(gauge) {
-        self._request(gauge);
-      });
+
+  update: function(gauge) {
+    var _this = this;
+
+    if(!gauge.usgsID) return;
+
+    return this._request(gauge)
+    .then(function(data) {
+      return Promise.map(data, _this._savePrediction);
     });
   }
 
-}
+};

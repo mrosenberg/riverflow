@@ -1,4 +1,5 @@
 (function() {
+
   var $searchBox = $( '#search' );
 
   if ( !$searchBox.length ) return;
@@ -62,5 +63,17 @@
 
   $form.on('typeahead:autocompleted', redirect);
   $form.on('typeahead:selected', redirect);
+})();
+
+(function() {
+
+  var charts = $('.chart');
+
+  $.each(charts, function() {
+    var $chart = $(this),
+        data   = $chart.data('chart-vars');
+
+    $chart.highcharts(data);
+  });
 })();
 

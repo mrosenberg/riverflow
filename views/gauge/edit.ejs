@@ -17,11 +17,35 @@
       </label>
 
       <label>USGS ID
-        <input type="text" placeholder="02037500" name="id" value="<%= gauge.id %>"/>
+        <input type="text" placeholder="02037500" name="usgsID" value="<%= gauge.usgsID %>"/>
       </label>
 
       <label>NWS ID
-        <input type="text" placeholder="02037500" name="nwsID" value="<%= gauge.nwsID %>"/>
+        <input type="text" placeholder="RMDV2" name="nwsID" value="<%= gauge.nwsID %>"/>
+      </label>
+
+      <label>Latitude
+        <input type="text" placeholder="37.5536111" name="latitude" value="<%= gauge.latitude %>"/>
+      </label>
+
+      <label>Longitude
+        <input type="text" placeholder="-77.4605556" name="longitude" value="<%= gauge.longitude %>"/>
+      </label>
+
+      <label>Action Stage
+        <input type="text" placeholder="9" name="actionStage" value="<%= gauge.actionStage %>"/>
+      </label>
+
+      <label>Minor Stage
+        <input type="text" placeholder="12" name="minorStage" value="<%= gauge.minorStage %>"/>
+      </label>
+
+      <label>Moderate Stage
+        <input type="text" placeholder="15" name="moderateStage" value="<%= gauge.moderateStage %>"/>
+      </label>
+
+      <label>Major Stage
+        <input type="text" placeholder="22" name="majorStage" value="<%= gauge.majorStage %>"/>
       </label>
 
       <label>River
@@ -39,6 +63,7 @@
         <label for="gauge-status">Active</label>
       </div>
 
+      <input type="hidden" name="id" value="<%= gauge.id %>"/>
       <input type="submit" value="Save Gauge"/>
 
     </div>

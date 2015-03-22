@@ -1,1 +1,1 @@
-../../bower_components/highcharts/highcharts.js
+../../bower_components/highcharts-release/highcharts.src.js

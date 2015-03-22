@@ -5,29 +5,41 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
+var Promise = require('bluebird'),
+    uuid    = require('node-uuid');
+
 module.exports = {
 
   schema: true,
 
 	attributes: {
 		id: {
-      type: 'integer',
-      autoIncrement: true,
+      type: 'uuid4',
+      require: true,
       primaryKey: true,
       unique: true
 		},
+
 		name: {
 			type: 'string',
 			required: true
 		},
+
     status: {
       type: 'string',
       defaultsTo: 'off'
     },
+
     gauges: {
       collection: 'gauge',
       via: 'river'
     }
-	}
+	},
+
+
+  beforeCreate: function(values, next) {
+    values.id = uuid.v4();
+    return next();
+  },
 };
 

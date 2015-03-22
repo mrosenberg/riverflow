@@ -27,6 +27,8 @@
   "dependencies": {
     "foundation": "~5.5.1",
     "typeahead.js": "~0.10.5",
-    "highcharts": "~4.1.4"
+    "highcharts": "~4.1.4",
+    "moment": "~2.9.0",
+    "highcharts-release": "~4.1.4"
   }
 }

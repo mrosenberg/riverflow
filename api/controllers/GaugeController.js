@@ -5,6 +5,122 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+var Promise = require('bluebird'),
+    moment  = require('moment');
+
+
+function flowChart(gauge) {
+
+  var chartData = gauge.measurements.map(function(point) {
+    return [moment(point.dateTime).utc(), +point.value];
+  });
+
+  return {
+    chart: {
+      type: 'spline'
+    },
+    title: {
+        text: 'Gauge Height'
+    },
+    // subtitle: {
+    //     text: 'October 6th and 7th 2009 at two locations in Vik i Sogn, Norway'
+    // },
+    xAxis: {
+        type: 'datetime',
+        labels: {
+            overflow: 'justify'
+        }
+    },
+    yAxis: {
+        title: {
+            text: 'Wind speed (m/s)'
+        },
+        min: 0,
+        minorGridLineWidth: 0,
+        gridLineWidth: 0,
+        alternateGridColor: null,
+        plotBands: [{ // Light air
+            from: 0,
+            to: gauge.actionStage,
+            color: 'rgba(68, 170, 213, 0.1)',
+            label: {
+                //text: 'Light air',
+                style: {
+                    color: '#606060'
+                }
+            }
+        }, { // Light breeze
+            from: gauge.actionStage,
+            to: gauge.minorStage,
+            color: 'rgba(0, 0, 0, 0)',
+            label: {
+                text: 'Action',
+                style: {
+                    color: '#606060'
+                }
+            }
+        }, { // Gentle breeze
+            from: gauge.minorStage,
+            to: gauge.moderateStage,
+            color: 'rgba(68, 170, 213, 0.1)',
+            label: {
+                text: 'Minor',
+                style: {
+                    color: '#606060'
+                }
+            }
+        }, { // Moderate breeze
+            from: gauge.moderateStage,
+            to: gauge.majorStage,
+            color: 'rgba(0, 0, 0, 0)',
+            label: {
+                text: 'Moderate',
+                style: {
+                    color: '#606060'
+                }
+            }
+        }, { // Fresh breeze
+            from: gauge.majorStage,
+            to: 100,
+            color: 'rgba(68, 170, 213, 0.1)',
+            label: {
+                text: 'Major',
+                style: {
+                    color: '#606060'
+                }
+            }
+          }
+        ]
+    },
+    tooltip: {
+        valueSuffix: ' ft'
+    },
+    plotOptions: {
+      spline: {
+        lineWidth: 4,
+        states: {
+          hover: {
+              lineWidth: 5
+          }
+        },
+        marker: {
+          enabled: false
+        },
+      }
+    },
+    series: [{
+      name: 'Feet',
+      data: chartData
+    }],
+    navigation: {
+      menuItemStyle: {
+          fontSize: '10px'
+      }
+    }
+  }
+}
+
+
 module.exports = {
 
   index: function(req, res) {
@@ -64,10 +180,18 @@ module.exports = {
         req.session.flash = {
           err:err
         }
+        console.log(err);
         return res.redirect('gauges/new');
       }
 
-      res.redirect('gauges/view/' + gauge.id);
+      Promise.all([
+        UpdateMeasurements.update(gauge),
+        UpdatePredictions.update(gauge)
+      ])
+      .then(function() {
+        res.redirect('gauges/view/' + gauge.id);
+      });
+
     });
   },
 
@@ -96,6 +220,7 @@ module.exports = {
         req.session.flash = {
           err:err
         }
+        console.log(err);
         return res.redirect('gauges/edit/' + req.param('id'));
       }
 
@@ -109,6 +234,8 @@ module.exports = {
 
     Gauge.findOne(req.param('id'))
     .populate('measurements', {sort: 'updatedAt DESC'})
+    .populate('predictions')
+    .populate('weather', {sort: 'updatedAt DESC'})
     .exec(function(err, gauge) {
       if (err) return next(err);
       if (!gauge) return next();
@@ -116,8 +243,14 @@ module.exports = {
       var flow = _.filter(gauge.measurements, {variableID: 45807197});
       var height = _.filter(gauge.measurements, {variableID: 45807202});
 
+      res.locals.flowChart = JSON.stringify(flowChart(gauge));
+
       res.view({
-        gauge:gauge,
+        gauge: gauge,
+        updatedAgo: moment(gauge.updatedAt).from(),
+        weather: gauge.weather[0],
+        measurements: gauge.measurements,
+        prediction: gauge.predictions,
         flow: flow[0],
         height: height[0]
       });

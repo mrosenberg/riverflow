@@ -5,16 +5,27 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
+var Promise = require('bluebird'),
+    uuid    = require('node-uuid');
+
+
 module.exports = {
 
   schema: true,
 
   attributes: {
+
   	id: {
-      type: 'string',
+      type: 'uuid',
+      required: true,
       primaryKey: true,
       unique: true
   	},
+
+    usgsID: {
+      type: 'string',
+      defaultsTo: null
+    },
 
     nwsID: {
       type: 'string',
@@ -31,6 +42,32 @@ module.exports = {
       defaultsTo: 'off'
     },
 
+    latitude: {
+      type: 'string',
+      required: true
+    },
+
+    longitude: {
+      type: 'string',
+      required: true
+    },
+
+    actionStage: {
+      type: 'integer'
+    },
+
+    minorStage: {
+      type: 'integer'
+    },
+
+    moderateStage: {
+      type: 'integer'
+    },
+
+    majorStage: {
+      type: 'integer'
+    },
+
     river: {
       model: 'river'
     },
@@ -43,6 +80,17 @@ module.exports = {
     predictions: {
       collection: 'prediction',
       via: 'gauge'
+    },
+
+    weather: {
+      collection: 'weather',
+      via: 'gauge'
     }
-  }
+  },
+
+
+  beforeCreate: function(values, next) {
+    values.id = uuid.v4();
+    return next();
+  },
 };
