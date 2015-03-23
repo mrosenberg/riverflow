@@ -20,7 +20,7 @@ module.exports = {
     var _this = this;
 
     return request({
-      url: 'https://api.forecast.io/forecast/'+apiKey+'/'+gauge.latitude+','+gauge.longitude,
+      url: 'https://api.forecast.io/forecast/'+sails.config.forecastIO.apiKey+'/'+gauge.latitude+','+gauge.longitude,
       gzip: true
     })
     .then(function(result) {

@@ -19,6 +19,13 @@
         <input type="text" placeholder="-77.4605556" name="longitude"/>
       </label>
 
+      <label>TimeZone
+      <select name="timeZone">
+        <% timeZones.forEach(function(zone) { %>
+          <option value="<%= zone %>"><%= zone %></option>
+        <% }) %>
+      </select>
+
       <label>Action Stage
         <input type="text" placeholder="9" name="actionStage"/>
       </label>

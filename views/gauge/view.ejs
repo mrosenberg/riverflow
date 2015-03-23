@@ -25,8 +25,17 @@
   </li>
 </ul>
 
-<div class="chart" data-chart-vars='<%- block('localScripts', flowChart) %>'></div>
 
+<div class="chart" data-chart-vars='<%- heightChart %>'></div>
+
+
+<script>
+
+  highchartsGlobals = {
+    timeZone: '<%- timeZone %>'
+  };
+
+</script>
 
 
 

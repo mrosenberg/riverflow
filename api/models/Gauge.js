@@ -22,6 +22,11 @@ module.exports = {
       unique: true
   	},
 
+    timeZone: {
+      type: 'string',
+      required: true
+    },
+
     usgsID: {
       type: 'string',
       defaultsTo: null

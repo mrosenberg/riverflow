@@ -6,13 +6,16 @@
  */
 
 var Promise = require('bluebird'),
-    moment  = require('moment');
+    moment  = require('moment-timezone');
 
 
-function flowChart(gauge) {
+function heightChart(gauge) {
 
-  var chartData = gauge.measurements.map(function(point) {
-    return [moment(point.dateTime).utc(), +point.value];
+  var chartData = gauge.measurements.filter(function(datum) {
+    return (45807202 === datum.variableID);
+  })
+  .map(function(datum) {
+    return [moment(datum.dateTime).valueOf(), +datum.value];
   });
 
   return {
@@ -20,20 +23,25 @@ function flowChart(gauge) {
       type: 'spline'
     },
     title: {
-        text: 'Gauge Height'
+        text: 'Height'
     },
     // subtitle: {
     //     text: 'October 6th and 7th 2009 at two locations in Vik i Sogn, Norway'
     // },
     xAxis: {
         type: 'datetime',
-        labels: {
-            overflow: 'justify'
+        dateTimeLabelFormats: {
+          hour: '%a <br/> %l:%M%P',
+          day: '%a <br/> %l:%M%P',
+          week: '%a <br/> %l:%M%P'
         }
+        // labels: {
+        //     overflow: 'justify'
+        // }
     },
     yAxis: {
         title: {
-            text: 'Wind speed (m/s)'
+            text: 'Height (ft)'
         },
         min: 0,
         minorGridLineWidth: 0,
@@ -93,14 +101,15 @@ function flowChart(gauge) {
         ]
     },
     tooltip: {
-        valueSuffix: ' ft'
+      valueSuffix: ' ft'
+
     },
     plotOptions: {
       spline: {
         lineWidth: 4,
         states: {
           hover: {
-              lineWidth: 5
+            lineWidth: 5
           }
         },
         marker: {
@@ -109,8 +118,9 @@ function flowChart(gauge) {
       }
     },
     series: [{
-      name: 'Feet',
-      data: chartData
+      name: 'Observed',
+      data: chartData,
+      //pointStart: chartData[0][0]
     }],
     navigation: {
       menuItemStyle: {
@@ -166,7 +176,8 @@ module.exports = {
       if (!rivers) return next();
 
       res.view({
-        rivers:rivers
+        rivers:rivers,
+        timeZones: moment.tz.names()
       });
     });
   },
@@ -205,7 +216,8 @@ module.exports = {
       .then(function(rivers) {
         res.view({
           gauge:gauge,
-          rivers: rivers
+          rivers: rivers,
+          timeZones: moment.tz.names()
         });
       });
     });
@@ -233,7 +245,7 @@ module.exports = {
   view: function(req, res, next) {
 
     Gauge.findOne(req.param('id'))
-    .populate('measurements', {sort: 'updatedAt DESC'})
+    .populate('measurements', {sort: 'dateTime ASC'})
     .populate('predictions')
     .populate('weather', {sort: 'updatedAt DESC'})
     .exec(function(err, gauge) {
@@ -243,8 +255,6 @@ module.exports = {
       var flow = _.filter(gauge.measurements, {variableID: 45807197});
       var height = _.filter(gauge.measurements, {variableID: 45807202});
 
-      res.locals.flowChart = JSON.stringify(flowChart(gauge));
-
       res.view({
         gauge: gauge,
         updatedAgo: moment(gauge.updatedAt).from(),
@@ -252,7 +262,9 @@ module.exports = {
         measurements: gauge.measurements,
         prediction: gauge.predictions,
         flow: flow[0],
-        height: height[0]
+        height: height[0],
+        timeZone: gauge.timeZone,
+        heightChart: JSON.stringify(heightChart(gauge))
       });
     });
   },

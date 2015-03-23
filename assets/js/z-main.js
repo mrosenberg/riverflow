@@ -65,6 +65,23 @@
   $form.on('typeahead:selected', redirect);
 })();
 
+
+(function() {
+
+  Highcharts.setOptions({
+    global: {
+      getTimezoneOffset: function (timestamp) {
+        var zone = highchartsGlobals.timeZone,
+            timezoneOffset = moment.tz.zone(zone).parse(timestamp);
+        return timezoneOffset;
+      }
+    }
+  });
+
+})();
+
+
+
 (function() {
 
   var charts = $('.chart');
