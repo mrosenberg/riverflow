@@ -1,0 +1,13 @@
+footer#site-footer {
+  position: absolute;
+  width: 100%;
+  font-size: 0.8rem;
+  text-align: center;
+  background: $primary-0;
+  color: $complement-2;
+
+  p {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+  }
+}

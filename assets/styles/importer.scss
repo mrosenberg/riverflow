@@ -15,11 +15,92 @@
 
 @import 'foundation';
 @import '_variables';
+@import '_home';
 @import '_auto-search';
+@import '_gauge';
 @import '_register';
+@import '_footer';
+
+
+body {
+  background: $complement-1;
+}
 
 .inner-wrap {
   min-height: 100vh;
+}
+
+a {
+  color: $primary-1;
+  text-decoration: none;
+  border-bottom: 1px dashed $primary-1;
+
+  &:hover {
+    border-bottom: 1px dashed $complement-3;
+  }
+}
+
+section {
+
+  &:after {
+    display:table;
+    content:'';
+    height:0;
+    visibility: hidden;
+    clear:both;
+  }
+}
+
+div.swatch {
+  height:200px;
+  width: 300px;
+  color: #000000;
+  display: inline-block;
+
+  span {
+    background: #fff;
+  }
+
+  &.primary-0 {
+    background: $primary-0;
+  }
+
+  &.primary-1 {
+    background: $primary-1;
+  }
+
+  &.primary-2 {
+    background: $primary-2;
+  }
+
+  &.primary-3 {
+    background: $primary-3;
+  }
+
+  &.primary-4 {
+    background: $primary-4;
+  }
+
+
+  &.complement-0 {
+    background: $complement-0;
+  }
+
+  &.complement-1 {
+    background: $complement-1;
+  }
+
+  &.complement-2 {
+    background: $complement-2;
+  }
+
+  &.complement-3 {
+    background: $complement-3;
+  }
+
+  &.complement-4 {
+    background: $complement-4;
+  }
 }
 
 

@@ -94,3 +94,22 @@
   });
 })();
 
+
+(function($) {
+
+  $( document ).ready(function() {
+    var skycons = new Skycons();
+
+    $('.dark-sky-icon').each(function() {
+      var el, condition;
+
+      el        = $(this);
+      condition = el.data('icon');
+
+      skycons.add(this, condition);
+      skycons.play();
+    });
+  });
+
+})(jQuery);
+

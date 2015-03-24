@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Riverflow</title>
+    <title><%- title %> - Riverflow</title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+   <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+
 
 
     <!--
@@ -29,11 +32,11 @@
     -->
 
     <!--STYLES-->
-    
+    <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
   </head>
 
-  <body>
+  <body class="<%- bodyClasses %>">
     <div class="off-canvas-wrap" data-offcanvas>
       <div class="inner-wrap">
         <nav class="tab-bar">
@@ -45,12 +48,21 @@
           </section>
 
           <section class="middle tab-bar-section">
-            <h1 class="title">RiverFlow</h1>
+            <a href="/" title="home">
+              <h1 class="title">RiverFlow</h1>
+            </a>
           </section>
 
         </nav>
 
         <aside class="left-off-canvas-menu">
+
+          <ul class="off-canvas-list">
+            <li><label>Lists</label></li>
+            <li><a href="/gauges">Gauges</a></li>
+            <li><a href="/rivers">Rivers</a></li>
+          </ul>
+
           <ul class="off-canvas-list">
             <li><label>Users</label></li>
             <li><a href="/users/register">Register</a></li>
@@ -95,6 +107,14 @@
 
       </div>
     </div>
+
+    <footer id="site-footer">
+
+      <span>Photos courtesy <a href="https://www.facebook.com/rich.young.754" title="This guy rocks.">Rich Young</a></span> | <span>Weather Data provided by <a href="http://forecast.io/" title="They are awesome. Check 'em out.">Powered by Forecast</a></span> | <span>River data gathered from USGS and NWS</span>
+
+      <p>Developed with love for the people of the mighty James River in Richmond, Va.</p>
+
+    </footer>
     <!--
 
       Client-side Javascript
@@ -125,6 +145,7 @@
     <script src="/js/foundation.js"></script>
     <script src="/js/highcharts.js"></script>
     <script src="/js/moment-timezone-with-data-2010-2020.js"></script>
+    <script src="/js/skycons.js"></script>
     <script src="/js/typeahead.js"></script>
     <script src="/js/z-main.js"></script>
     <!--SCRIPTS END-->

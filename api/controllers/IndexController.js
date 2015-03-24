@@ -9,7 +9,17 @@ var Promise = require("bluebird");
 module.exports = {
 
   index: function(req, res, next) {
-    res.view()
+    res.view({
+      title: 'Home',
+      bodyClasses: 'home'
+    });
+  },
+
+  swatches: function(req, res, next) {
+    res.view({
+      title: 'swatches',
+      bodyClasses: 'swatches'
+    });
   },
 
   cron: function(req, res, next) {

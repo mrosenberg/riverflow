@@ -11,98 +11,105 @@ var Promise = require('bluebird'),
 
 function heightChart(gauge) {
 
-  var chartData = gauge.measurements.filter(function(datum) {
+  var observedHeightChartData = gauge.measurements.filter(function(datum) {
     return (45807202 === datum.variableID);
   })
   .map(function(datum) {
     return [moment(datum.dateTime).valueOf(), +datum.value];
   });
 
+
+  var predictedHeightChartData = gauge.predictions.filter(function(datum) {
+    return ('Stage' === datum.variableName);
+  })
+  .map(function(datum) {
+    return [moment(datum.dateTime).valueOf(), +datum.value];
+  });
+
+
+
   return {
     chart: {
       type: 'spline'
     },
     title: {
-        text: 'Height'
+      text: 'Height'
     },
-    // subtitle: {
-    //     text: 'October 6th and 7th 2009 at two locations in Vik i Sogn, Norway'
-    // },
     xAxis: {
-        type: 'datetime',
-        dateTimeLabelFormats: {
-          hour: '%a <br/> %l:%M%P',
-          day: '%a <br/> %l:%M%P',
-          week: '%a <br/> %l:%M%P'
-        }
-        // labels: {
-        //     overflow: 'justify'
-        // }
+      type: 'datetime',
+      dateTimeLabelFormats: {
+        hour: '%a <br/> %l:%M%P',
+        day: '%a <br/> %l:%M%P',
+        week: '%a <br/> %l:%M%P'
+      }
     },
     yAxis: {
-        title: {
-            text: 'Height (ft)'
-        },
-        min: 0,
-        minorGridLineWidth: 0,
-        gridLineWidth: 0,
-        alternateGridColor: null,
-        plotBands: [{ // Light air
-            from: 0,
-            to: gauge.actionStage,
-            color: 'rgba(68, 170, 213, 0.1)',
-            label: {
-                //text: 'Light air',
-                style: {
-                    color: '#606060'
-                }
-            }
-        }, { // Light breeze
-            from: gauge.actionStage,
-            to: gauge.minorStage,
-            color: 'rgba(0, 0, 0, 0)',
-            label: {
-                text: 'Action',
-                style: {
-                    color: '#606060'
-                }
-            }
-        }, { // Gentle breeze
-            from: gauge.minorStage,
-            to: gauge.moderateStage,
-            color: 'rgba(68, 170, 213, 0.1)',
-            label: {
-                text: 'Minor',
-                style: {
-                    color: '#606060'
-                }
-            }
-        }, { // Moderate breeze
-            from: gauge.moderateStage,
-            to: gauge.majorStage,
-            color: 'rgba(0, 0, 0, 0)',
-            label: {
-                text: 'Moderate',
-                style: {
-                    color: '#606060'
-                }
-            }
-        }, { // Fresh breeze
-            from: gauge.majorStage,
-            to: 100,
-            color: 'rgba(68, 170, 213, 0.1)',
-            label: {
-                text: 'Major',
-                style: {
-                    color: '#606060'
-                }
-            }
+      title: {
+        text: 'Height (ft)'
+      },
+      min: 0,
+      minorGridLineWidth: 0,
+      gridLineWidth: 0,
+      alternateGridColor: null,
+      plotBands: [{ // Light air
+        from: 0,
+        to: gauge.actionStage,
+        color: 'rgba(68, 170, 213, 0.1)',
+        label: {
+          //text: 'Light air',
+          style: {
+              color: '#606060'
           }
-        ]
+        }
+      },
+      {
+        from: gauge.actionStage,
+        to: gauge.minorStage,
+        color: 'rgba(0, 0, 0, 0)',
+        label: {
+          text: 'Action',
+          style: {
+              color: '#606060'
+          }
+        }
+      },
+      {
+        from: gauge.minorStage,
+        to: gauge.moderateStage,
+        color: 'rgba(68, 170, 213, 0.1)',
+        label: {
+          text: 'Minor',
+          style: {
+              color: '#606060'
+          }
+        }
+      },
+      { // Moderate breeze
+        from: gauge.moderateStage,
+        to: gauge.majorStage,
+        color: 'rgba(0, 0, 0, 0)',
+        label: {
+          text: 'Moderate',
+          style: {
+              color: '#606060'
+          }
+        }
+      },
+      { // Fresh breeze
+        from: gauge.majorStage,
+        to: 100,
+        color: 'rgba(68, 170, 213, 0.1)',
+        label: {
+          text: 'Major',
+          style: {
+              color: '#606060'
+          }
+        }
+      }]
     },
     tooltip: {
-      valueSuffix: ' ft'
-
+      valueSuffix: ' ft',
+      crosshairs: [true,true]
     },
     plotOptions: {
       spline: {
@@ -117,14 +124,95 @@ function heightChart(gauge) {
         },
       }
     },
-    series: [{
-      name: 'Observed',
-      data: chartData,
-      //pointStart: chartData[0][0]
-    }],
+    series: [
+      {
+        name: 'Observed',
+        data: observedHeightChartData,
+      },
+      {
+        name: 'Predicted',
+        data: predictedHeightChartData
+      }
+    ],
     navigation: {
       menuItemStyle: {
-          fontSize: '10px'
+        fontSize: '10px'
+      }
+    }
+  }
+}
+
+function flowChart(gauge) {
+
+  var observedHeightChartData = gauge.measurements.filter(function(datum) {
+    return (45807197 === datum.variableID);
+  })
+  .map(function(datum) {
+    return [moment(datum.dateTime).valueOf(), +datum.value];
+  });
+
+
+  var predictedHeightChartData = gauge.predictions.filter(function(datum) {
+    return ('Flow' === datum.variableName);
+  })
+  .map(function(datum) {
+    return [moment(datum.dateTime).valueOf(), +datum.value * 1000];
+  });
+
+  return {
+    chart: {
+      type: 'spline'
+    },
+    title: {
+      text: 'Flow'
+    },
+    xAxis: {
+      type: 'datetime',
+      dateTimeLabelFormats: {
+        hour: '%a <br/> %l:%M%P',
+        day: '%a <br/> %l:%M%P',
+        week: '%a <br/> %l:%M%P'
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Flow ft&#179;/s'
+      },
+      min: 0,
+      minorGridLineWidth: 0,
+      gridLineWidth: 0,
+      alternateGridColor: null
+    },
+    tooltip: {
+      valueSuffix: ' ft&#179;/s',
+      crosshairs: [true,true]
+    },
+    plotOptions: {
+      spline: {
+        lineWidth: 4,
+        states: {
+          hover: {
+            lineWidth: 5
+          }
+        },
+        marker: {
+          enabled: false
+        },
+      }
+    },
+    series: [
+      {
+        name: 'Observed',
+        data: observedHeightChartData,
+      },
+      {
+        name: 'Predicted',
+        data: predictedHeightChartData
+      }
+    ],
+    navigation: {
+      menuItemStyle: {
+        fontSize: '10px'
       }
     }
   }
@@ -256,7 +344,10 @@ module.exports = {
       var height = _.filter(gauge.measurements, {variableID: 45807202});
 
       res.view({
+        title: gauge.name,
+        bodyClasses: 'view gauge',
         gauge: gauge,
+        skycon: gauge.weather[0].currently.icon,
         updatedAgo: moment(gauge.updatedAt).from(),
         weather: gauge.weather[0],
         measurements: gauge.measurements,
@@ -264,7 +355,8 @@ module.exports = {
         flow: flow[0],
         height: height[0],
         timeZone: gauge.timeZone,
-        heightChart: JSON.stringify(heightChart(gauge))
+        heightChart: JSON.stringify(heightChart(gauge)),
+        flowChart: JSON.stringify(flowChart(gauge))
       });
     });
   },

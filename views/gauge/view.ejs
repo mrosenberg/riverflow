@@ -1,34 +1,51 @@
 <a href="/gauges/edit/<%= gauge.id %>" class="button tiny right">Edit</a>
 
+<div class="row">
 
-<h1><%= gauge.name %></h1>
-<h2>Status <%= gauge.status %> and updated <%= updatedAgo %></h2>
+  <div class="small-12 column">
+    <header>
+      <div class="row">
+        <div class="small-6 column">
+          <canvas id="skycon" class="dark-sky-icon left" data-icon="<%= skycon %>" width="128" height="128" ></canvas>
+          <ul class="weather-conditions left">
+            <li><span>Condition:</span> <%= weather.currently.summary %></li>
+            <li><span>Air Temp:</span> <%= weather.currently.temperature %></li>
+            <li><span>Cloud Cover:</span> <%= weather.currently.cloudCover %></li>
+            <li><span>Wind Speed:</span> <%= weather.currently.windSpeed %></li>
+          </ul>
+        </div>
 
+        <div class="small-6 column">
+          <h1><%= gauge.name %></h1>
+          <p>Updated <%= updatedAgo %></p>
+        </div>
+      </div>
+    </header>
+  </div>
 
-<ul>
-  <li>River Conditions
-    <ul>
-      <li>Flow: <%= flow.value %><%= flow.unitAbbreviation %></li>
-      <li>Height: <%= height.value %><%= height.unitAbbreviation %></li>
-    </ul>
-  </li>
-</ul>
+</div>
 
-<ul>
-  <li>Weather
-    <ul>
-      <li>Condition: <%= weather.currently.summary %></li>
-      <li>Air Temp: <%= weather.currently.temperature %></li>
-      <li>Cloud Cover: <%= weather.currently.cloudCover %></li>
-      <li>Wind Speed: <%= weather.currently.windSpeed %></li>
-    </ul>
-  </li>
-</ul>
+<div class="row">
 
+  <div class="small-12 column">
+    <div class="row metrics">
 
-<div class="chart" data-chart-vars='<%- heightChart %>'></div>
+      <div class="small-12 medium-6 column">
+        <span class="tile"><%= flow.value %> <small><%= flow.unitAbbreviation %></small></span>
+      </div>
 
+      <div class="small-12 medium-6 column">
+       <span class="tile"><%= height.value %> <small><%= height.unitAbbreviation %></small></span>
+      </div>
 
+    </div>
+  </div>
+</div>
+
+<secton class="charts">
+  <div class="chart" data-chart-vars='<%- heightChart %>'></div>
+  <div class="chart" data-chart-vars='<%- flowChart %>'></div>
+</section>
 <script>
 
   highchartsGlobals = {
