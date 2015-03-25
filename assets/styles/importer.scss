@@ -23,11 +23,17 @@
 
 
 body {
-  background: $complement-1;
+  background: $primary-2;
+  color: $primary-1;
 }
 
 .inner-wrap {
   min-height: 100vh;
+}
+
+
+h1,h2,h3,h4,h4,h6 {
+  color: $complement-4;
 }
 
 a {

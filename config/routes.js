@@ -37,6 +37,11 @@ module.exports.routes = {
     action: 'index'
   },
 
+  '/swatches' : {
+    controller: 'index',
+    action: 'swatches'
+  },
+
   '/cron': {
     controller: 'index',
     action: 'cron'

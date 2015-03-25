@@ -10,12 +10,18 @@ var bcrypt = require('bcrypt');
 module.exports = {
 
   register: function(req, res, next) {
-    res.view();
+    res.view({
+      title: '',
+      bodyClasses: ''
+    });
   },
 
 
   signin: function(req, res, next) {
-    res.view();
+    res.view({
+      title: '',
+      bodyClasses: ''
+    });
   },
 
 

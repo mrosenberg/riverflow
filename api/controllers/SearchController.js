@@ -86,6 +86,8 @@ module.exports = {
   index: function(req, res,next) {
     this._searchCombined(req.param('term')).spread(function(rivers, gauges) {
       res.view({
+        title: '',
+        bodyClasses: '',
         rivers: rivers,
         gauges: gauges
       });

@@ -94,7 +94,7 @@ module.exports = {
   },
 
 
-  beforeCreate: function(values, next) {
+  beforeValidate: function(values, next) {
     values.id = uuid.v4();
     return next();
   },

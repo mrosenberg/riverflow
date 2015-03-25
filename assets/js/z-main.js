@@ -98,7 +98,7 @@
 (function($) {
 
   $( document ).ready(function() {
-    var skycons = new Skycons();
+    var skycons = new Skycons({"color": "#333"});
 
     $('.dark-sky-icon').each(function() {
       var el, condition;

@@ -14,8 +14,8 @@ module.exports = {
 
 	attributes: {
 		id: {
-      type: 'uuid4',
-      require: true,
+      type: 'uuid',
+      required: true,
       primaryKey: true,
       unique: true
 		},
@@ -37,8 +37,9 @@ module.exports = {
 	},
 
 
-  beforeCreate: function(values, next) {
+  beforeValidate: function(values, next) {
     values.id = uuid.v4();
+    console.log(values);
     return next();
   },
 };

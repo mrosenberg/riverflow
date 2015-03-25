@@ -13,6 +13,8 @@ module.exports = {
       if (!rivers) return next();
 
       res.view({
+        title: '',
+        bodyClasses: '',
         session: req.session,
         rivers:rivers
       });
@@ -33,6 +35,8 @@ module.exports = {
       }
 
       res.view({
+        title: '',
+        bodyClasses: '',
         river: river
       });
     });
@@ -56,18 +60,22 @@ module.exports = {
 
 
   new: function(req, res) {
-    res.view();
+    res.view({
+      title: '',
+      bodyClasses: ''
+    });
   },
 
 
   create: function(req, res, next) {
 
     River.create( req.params.all(), function(err, river) {
-
       if (err) {
         req.session.flash = {
           err:err
         }
+        console.log(err);
+
         return res.redirect('rivers/new');
       }
 
@@ -84,6 +92,8 @@ module.exports = {
       if (!river) return next();
 
       res.view({
+        title: '',
+        bodyClasses: '',
         river: river
       });
     });

@@ -30,10 +30,11 @@ function heightChart(gauge) {
 
   return {
     chart: {
-      type: 'spline'
+      type: 'spline',
+      backgroundColor: '#7A95AE',
     },
     title: {
-      text: 'Height'
+      text: 'River Height'
     },
     xAxis: {
       type: 'datetime',
@@ -128,10 +129,14 @@ function heightChart(gauge) {
       {
         name: 'Observed',
         data: observedHeightChartData,
+        color: '#2A4D6E'
+
       },
       {
         name: 'Predicted',
-        data: predictedHeightChartData
+        data: predictedHeightChartData,
+        color: '#FFDEAD',
+        dashStyle: 'Dot'
       }
     ],
     navigation: {
@@ -161,10 +166,11 @@ function flowChart(gauge) {
 
   return {
     chart: {
-      type: 'spline'
+      type: 'spline',
+      backgroundColor: '#7A95AE'
     },
     title: {
-      text: 'Flow'
+      text: 'River Flow'
     },
     xAxis: {
       type: 'datetime',
@@ -221,12 +227,14 @@ function flowChart(gauge) {
 
 module.exports = {
 
-  index: function(req, res) {
+  index: function(req, res, next) {
     Gauge.find(function(err, gauges) {
       if (err) return next(err);
       if (!gauges) return next();
 
       res.view({
+        title: '',
+        bodyClasses: '',
         gauges:gauges
       });
     });
@@ -264,6 +272,8 @@ module.exports = {
       if (!rivers) return next();
 
       res.view({
+        title: '',
+        bodyClasses: '',
         rivers:rivers,
         timeZones: moment.tz.names()
       });
@@ -303,6 +313,8 @@ module.exports = {
       River.find()
       .then(function(rivers) {
         res.view({
+          title: '',
+          bodyClasses: '',
           gauge:gauge,
           rivers: rivers,
           timeZones: moment.tz.names()

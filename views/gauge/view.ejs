@@ -5,7 +5,13 @@
   <div class="small-12 column">
     <header>
       <div class="row">
-        <div class="small-6 column">
+
+        <div class="small-12 medium-6 column">
+          <h1><%= gauge.name %></h1>
+          <p>Updated <%= updatedAgo %></p>
+        </div>
+
+        <div class="small-12 medium-6 column">
           <canvas id="skycon" class="dark-sky-icon left" data-icon="<%= skycon %>" width="128" height="128" ></canvas>
           <ul class="weather-conditions left">
             <li><span>Condition:</span> <%= weather.currently.summary %></li>
@@ -15,10 +21,6 @@
           </ul>
         </div>
 
-        <div class="small-6 column">
-          <h1><%= gauge.name %></h1>
-          <p>Updated <%= updatedAgo %></p>
-        </div>
       </div>
     </header>
   </div>

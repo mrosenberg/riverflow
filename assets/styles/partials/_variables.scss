@@ -13,14 +13,14 @@ $complement-0: rgba(170,124, 57,1);
 $complement-1: rgba(255,255,255,1);
 $complement-2: rgba(255,222,173,1);
 $complement-3: rgba( 77, 45,  0,1);
-$complement-4: rgba(  1,  1,  0,1);
+$complement-4: rgba(51, 51, 51,1);
 
 
 
 // Off Canvas Tab Bar Variables
 $include-html-off-canvas-classes: $include-html-classes !default;
 
-$tabbar-bg: $oil !default;
+$tabbar-bg: $complement-4 !default;
 $tabbar-height: rem-calc(45) !default;
 $tabbar-icon-width: $tabbar-height !default;
 $tabbar-line-height: $tabbar-height !default;
