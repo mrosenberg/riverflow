@@ -37,6 +37,11 @@ module.exports.routes = {
     action: 'index'
   },
 
+  '/about' : {
+    controller: 'index',
+    action: 'about'
+  },
+
   '/swatches' : {
     controller: 'index',
     action: 'swatches'

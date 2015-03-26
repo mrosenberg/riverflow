@@ -6,7 +6,8 @@
  */
 
 var Promise = require('bluebird'),
-    moment  = require('moment-timezone');
+    moment  = require('moment-timezone'),
+    numeral = require('numeral');
 
 
 function heightChart(gauge) {
@@ -26,12 +27,10 @@ function heightChart(gauge) {
     return [moment(datum.dateTime).valueOf(), +datum.value];
   });
 
-
-
   return {
     chart: {
       type: 'spline',
-      backgroundColor: '#7A95AE',
+      backgroundColor: 'rgba(122,149,174,1)',
     },
     title: {
       text: 'River Height'
@@ -49,61 +48,62 @@ function heightChart(gauge) {
         text: 'Height (ft)'
       },
       min: 0,
+      minRange: gauge.actionStage,
       minorGridLineWidth: 0,
       gridLineWidth: 0,
       alternateGridColor: null,
-      plotBands: [{ // Light air
+      plotBands: [{
         from: 0,
         to: gauge.actionStage,
-        color: 'rgba(68, 170, 213, 0.1)',
+        color: 'rgba(122,149,174,1)',
         label: {
-          //text: 'Light air',
+          text: 'Normal',
           style: {
-              color: '#606060'
+              color: 'rgba( 42, 77,110,1)'
           }
         }
       },
       {
         from: gauge.actionStage,
         to: gauge.minorStage,
-        color: 'rgba(0, 0, 0, 0)',
+        color: 'rgba( 77, 45,  0, 0.1)',
         label: {
           text: 'Action',
           style: {
-              color: '#606060'
+              color: 'rgba( 42, 77,110,1)'
           }
         }
       },
       {
         from: gauge.minorStage,
         to: gauge.moderateStage,
-        color: 'rgba(68, 170, 213, 0.1)',
+        color: 'rgba( 77, 45,  0, 0.2)',
         label: {
           text: 'Minor',
           style: {
-              color: '#606060'
+              color: 'rgba( 42, 77,110,1)'
           }
         }
       },
       { // Moderate breeze
         from: gauge.moderateStage,
         to: gauge.majorStage,
-        color: 'rgba(0, 0, 0, 0)',
+        color: 'rgba( 77, 45,  0, 0.3)',
         label: {
           text: 'Moderate',
           style: {
-              color: '#606060'
+              color: 'rgba( 42, 77,110,1)'
           }
         }
       },
       { // Fresh breeze
         from: gauge.majorStage,
         to: 100,
-        color: 'rgba(68, 170, 213, 0.1)',
+        color: 'rgba( 77, 45,  0, 0.4)',
         label: {
           text: 'Major',
           style: {
-              color: '#606060'
+              color: 'rgba( 42, 77,110,1)'
           }
         }
       }]
@@ -149,7 +149,7 @@ function heightChart(gauge) {
 
 function flowChart(gauge) {
 
-  var observedHeightChartData = gauge.measurements.filter(function(datum) {
+  var observedFlowChartData = gauge.measurements.filter(function(datum) {
     return (45807197 === datum.variableID);
   })
   .map(function(datum) {
@@ -157,7 +157,7 @@ function flowChart(gauge) {
   });
 
 
-  var predictedHeightChartData = gauge.predictions.filter(function(datum) {
+  var predictedFlowChartData = gauge.predictions.filter(function(datum) {
     return ('Flow' === datum.variableName);
   })
   .map(function(datum) {
@@ -167,7 +167,7 @@ function flowChart(gauge) {
   return {
     chart: {
       type: 'spline',
-      backgroundColor: '#7A95AE'
+      backgroundColor: 'rgba(122,149,174,1)'
     },
     title: {
       text: 'River Flow'
@@ -206,14 +206,19 @@ function flowChart(gauge) {
         },
       }
     },
+
     series: [
       {
         name: 'Observed',
-        data: observedHeightChartData,
+        data: observedFlowChartData,
+        color: '#2A4D6E'
+
       },
       {
         name: 'Predicted',
-        data: predictedHeightChartData
+        data: predictedFlowChartData,
+        color: '#FFDEAD',
+        dashStyle: 'Dot'
       }
     ],
     navigation: {
@@ -228,9 +233,14 @@ function flowChart(gauge) {
 module.exports = {
 
   index: function(req, res, next) {
-    Gauge.find(function(err, gauges) {
-      if (err) return next(err);
+
+    Gauge.find()
+    .then(function(gauges) {
       if (!gauges) return next();
+
+      gauges.map(function(gauge) {
+        gauge.updateAgo = moment(gauge.updatedAt).fromNow();
+      });
 
       res.view({
         title: '',
@@ -364,7 +374,7 @@ module.exports = {
         weather: gauge.weather[0],
         measurements: gauge.measurements,
         prediction: gauge.predictions,
-        flow: flow[0],
+        flow: numeral(flow[0].value).format('0,0'),
         height: height[0],
         timeZone: gauge.timeZone,
         heightChart: JSON.stringify(heightChart(gauge)),

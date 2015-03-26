@@ -1,60 +1,66 @@
-<form action="/gauges/remove/<%= gauge.id %>" method="POST">
-  <input type="submit" value="Delete Gauge"/>
-</form>
-
-<form action="/gauges/reset/<%= gauge.id %>" method="POST">
-  <input type="submit" value="Reset"/>
-</form>
-
 <form action="/gauges/update/<%= gauge.id %>" method="POST">
 
   <div class="row">
 
-    <div class="large-12 columns">
-
+    <div class="small-9 columns">
       <label>Name
         <input type="text" placeholder="James River" name="name" value="<%= gauge.name %>"/>
       </label>
+    </div>
 
+    <div class="small-3 column">
+      <div class="switch">
+        <input id="gauge-status" type="checkbox" name="status" <% if('on' === gauge.status) {%> checked <%}%>>
+        <label for="gauge-status">Active</label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="small-6 column">
       <label>USGS ID
         <input type="text" placeholder="02037500" name="usgsID" value="<%= gauge.usgsID %>"/>
       </label>
+    </div>
 
+    <div class="small-6 column">
       <label>NWS ID
         <input type="text" placeholder="RMDV2" name="nwsID" value="<%= gauge.nwsID %>"/>
       </label>
+    </div>
 
+  </div>
+
+  <div class="row">
+
+    <div class="small-6 column">
       <label>Latitude
         <input type="text" placeholder="37.5536111" name="latitude" value="<%= gauge.latitude %>"/>
       </label>
+    </div>
 
+    <div class="small-6 column">
       <label>Longitude
         <input type="text" placeholder="-77.4605556" name="longitude" value="<%= gauge.longitude %>"/>
       </label>
+    </div>
 
+  </div>
+
+  <div class="row">
+
+    <div class="small-6 column">
       <label>TimeZone
       <select name="timeZone">
         <% timeZones.forEach(function(zone) { %>
           <option value="<%= zone %>" <% if (zone === gauge.timeZone) { %> selected <% } %> ><%= zone %></option>
         <% }) %>
       </select>
+    </div>
 
-      <label>Action Stage
-        <input type="text" placeholder="9" name="actionStage" value="<%= gauge.actionStage %>"/>
-      </label>
-
-      <label>Minor Stage
-        <input type="text" placeholder="12" name="minorStage" value="<%= gauge.minorStage %>"/>
-      </label>
-
-      <label>Moderate Stage
-        <input type="text" placeholder="15" name="moderateStage" value="<%= gauge.moderateStage %>"/>
-      </label>
-
-      <label>Major Stage
-        <input type="text" placeholder="22" name="majorStage" value="<%= gauge.majorStage %>"/>
-      </label>
-
+    <div class="small-6 column">
       <label>River
         <select name="river">
           <% _.each(rivers, function(river) { %>
@@ -64,17 +70,84 @@
           <% }); %>
         </select>
       </label>
-
-      <div class="switch">
-        <input id="gauge-status" type="checkbox" name="status" <% if('on' === gauge.status) {%> checked <%}%>>
-        <label for="gauge-status">Active</label>
-      </div>
-
-      <input type="hidden" name="id" value="<%= gauge.id %>"/>
-      <input type="submit" value="Save Gauge"/>
-
     </div>
+
   </div>
+
+  <div class="row">
+
+    <div class="small-3 column">
+      <label>Action Stage
+        <input type="text" placeholder="9" name="actionStage" value="<%= gauge.actionStage %>"/>
+      </label>
+    </div>
+
+    <div class="small-3 column">
+      <label>Minor Stage
+        <input type="text" placeholder="12" name="minorStage" value="<%= gauge.minorStage %>"/>
+      </label>
+    </div>
+
+    <div class="small-3 column">
+      <label>Moderate Stage
+        <input type="text" placeholder="15" name="moderateStage" value="<%= gauge.moderateStage %>"/>
+      </label>
+    </div>
+
+    <div class="small-3 column">
+      <label>Major Stage
+        <input type="text" placeholder="22" name="majorStage" value="<%= gauge.majorStage %>"/>
+      </label>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="small-6 column">
+      <label>Downstream Gauge
+        <input type="text" placeholder="22" name="downstreamGauge" value="<%= gauge.downstreamGauge %>"/>
+      </label>
+    </div>
+
+    <div class="small-6 column">
+      <label>Upstream Gauge
+        <input type="text" placeholder="22" name="upstreamGauge" value="<%= gauge.upstreamGauge %>"/>
+      </label>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="small-12 column">
+      <input type="hidden" name="id" value="<%= gauge.id %>"/>
+      <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+
+      <input type="submit" class="button tiny left" value="Save Gauge"/>
+    </div>
+
+  </div>
+
 </form>
+
+
+<div class="row">
+  <div class="small-12 column">
+
+    <form action="/gauges/reset/<%= gauge.id %>" method="POST">
+      <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      <input type="submit" class="button tiny" value="Reset"/>
+    </form>
+
+    <form action="/gauges/remove/<%= gauge.id %>" method="POST">
+      <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      <input type="submit" class="button tiny" value="Delete Gauge"/>
+    </form>
+
+  </div>
+</div>
+
+
 
 

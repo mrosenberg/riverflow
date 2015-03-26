@@ -36,10 +36,8 @@ module.exports = {
     }
 	},
 
-
   beforeValidate: function(values, next) {
-    values.id = uuid.v4();
-    console.log(values);
+    values.id = values.id || uuid.v4();
     return next();
   },
 };

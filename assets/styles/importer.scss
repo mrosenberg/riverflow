@@ -36,26 +36,21 @@ h1,h2,h3,h4,h4,h6 {
   color: $complement-4;
 }
 
+ul {
+  list-style: none;
+}
+
 a {
   color: $primary-1;
   text-decoration: none;
-  border-bottom: 1px dashed $primary-1;
-
-  &:hover {
-    border-bottom: 1px dashed $complement-3;
-  }
 }
 
-section {
-
-  &:after {
-    display:table;
-    content:'';
-    height:0;
-    visibility: hidden;
-    clear:both;
-  }
+table {
+  width:100%;
+  background:none;
 }
+
+
 
 div.swatch {
   height:200px;

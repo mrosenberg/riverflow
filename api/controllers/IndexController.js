@@ -15,6 +15,13 @@ module.exports = {
     });
   },
 
+  about: function(req, res, next) {
+    res.view({
+      title: 'about',
+      bodyClasses: 'about'
+    });
+  },
+
   swatches: function(req, res, next) {
     res.view({
       title: 'swatches',

@@ -1,29 +1,41 @@
-<a href="/gauges/create" class="button tiny right">Add</a>
+<% if (session.authenticated) { %>
+  <ul class="logged-in user-tools">
+    <li><a href="/gauges/create" class="button tiny right">Add</a></li>
+  </ul>
+<% } %>
 
-<dl class="sub-nav">
-  <dt>Filter:</dt>
-  <dd class="active"><a href="#">All</a></dd>
-  <dd><a href="?status=active">Active</a></dd>
-  <dd><a href="?status=suspended">Suspended</a></dd>
-</dl>
 
-<h1>Gauges</h1>
+<div class="row">
+  <div class="small-12 column">
+    <header>
+      <div class="row">
+        <div class="small-12 column">
+          <h1>Gauges</h1>
+        </div>
+      </div>
+    </header>
+  </div>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>ID</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% _.each(gauges, function(gauge) { %>
-      <tr>
-        <td><a href="/gauges/view/<%= gauge.id %>"><%= gauge.name %></a></td>
-        <td><%= gauge.id %></td>
-        <td><%= gauge.status %></td>
-      </tr>
-    <% }); %>
-  </tbody>
-</table>
+
+<div class="row">
+  <div class="small-12 column">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(gauges, function(gauge) { %>
+          <tr>
+            <td><a href="/gauges/view/<%= gauge.id %>"><%= gauge.name %></a></td>
+            <td><%= gauge.updateAgo %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

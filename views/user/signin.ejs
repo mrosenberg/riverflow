@@ -23,7 +23,8 @@
                     <input type="password" name="password" name="password" placeholder="Password">
                   </div>
                 </div>
-                <input type="submit" value="Sign In"/>
+                <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                <input type="submit" class="button" value="Sign In"/>
               </form>
             </div>
           </div>

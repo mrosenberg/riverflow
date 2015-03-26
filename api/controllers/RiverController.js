@@ -91,6 +91,10 @@ module.exports = {
       if (err) return next(err);
       if (!river) return next();
 
+      river.gauges.map(function(gauge) {
+        gauge.updateAgo = moment(gauge.updatedAt).fromNow();
+      });
+
       res.view({
         title: '',
         bodyClasses: '',

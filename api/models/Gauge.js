@@ -90,12 +90,20 @@ module.exports = {
     weather: {
       collection: 'weather',
       via: 'gauge'
+    },
+
+    downstreamGauge: {
+      model: 'gauge'
+    },
+
+    upstreamGauge: {
+      model: 'gauge'
     }
   },
 
 
   beforeValidate: function(values, next) {
-    values.id = uuid.v4();
+    values.id = values.id || uuid.v4();
     return next();
   },
 };

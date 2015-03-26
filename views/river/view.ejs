@@ -1,23 +1,41 @@
-<a href="/rivers/edit/<%= river.id %>" class="button tiny right">Edit</a>
+<% if (session.authenticated) { %>
+  <ul class="logged-in user-tools">
+    <li><a href="/rivers/edit/<%= river.id %>" class="button tiny right">Edit</a></li>
+  </ul>
+<% } %>
 
-<h1><%= river.name %></h1>
-<h2>Status: <%= river.status %></h2>
+<div class="row">
+  <div class="small-12 column">
+    <header>
+      <div class="row">
+        <div class="small-12 column">
+          <h1><%= river.name %></h1>
+          <h2>Status: <%= river.status %></h2>
+          <h3>Available Gauges</h3>
+        </div>
+      </div>
+    </header>
+  </div>
+</div>
 
-<h3>Available Gauges</h3>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% _.each(river.gauges, function(gauge) { %>
-      <tr>
-        <td><a href="/gauges/view/<%= gauge.id %>"><%= gauge.name %></a></td>
-        <td><%= gauge.status %></td>
-      </tr>
-    <% }); %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="small-12 column">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(river.gauges, function(gauge) { %>
+          <tr>
+            <td><a href="/gauges/view/<%= gauge.id %>"><%= gauge.name %></a></td>
+            <td><%= gauge.updateAgo %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>
