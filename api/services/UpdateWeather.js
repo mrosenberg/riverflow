@@ -19,8 +19,6 @@ module.exports = {
   _request: function(gauge) {
     var _this = this;
 
-console.log(sails.config.forecastIO.apiKey);
-console.log(gauge);
     return request({
       url: 'https://api.forecast.io/forecast/'+sails.config.forecastIO.apiKey+'/'+gauge.latitude+','+gauge.longitude,
       gzip: true
