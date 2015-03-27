@@ -131,22 +131,4 @@
 </form>
 
 
-<div class="row">
-  <div class="small-12 column">
-
-    <form action="/gauges/reset/<%= gauge.id %>" method="POST">
-      <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-      <input type="submit" class="button tiny" value="Reset"/>
-    </form>
-
-    <form action="/gauges/remove/<%= gauge.id %>" method="POST">
-      <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-      <input type="submit" class="button tiny" value="Delete Gauge"/>
-    </form>
-
-  </div>
-</div>
-
-
-
 
