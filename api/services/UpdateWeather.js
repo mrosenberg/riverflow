@@ -24,11 +24,13 @@ module.exports = {
       gzip: true
     })
     .then(function(result) {
-      console.log(result);
       var data = JSON.parse(result[0].body);
 
       data['gauge'] = gauge.id;
       return data;
+    })
+    .catch(function(err) {
+      console.log(err);
     });
   },
 
