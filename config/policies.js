@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': true,
+  '*': false,
 
   /***************************************************************************
   *                                                                          *
@@ -38,7 +38,7 @@ module.exports.policies = {
   user: {
 
     'signin': true,
-    'authenticate': true,
+    // 'authenticate': true,
     '*': 'sessionAuth'
 
   },
@@ -53,7 +53,7 @@ module.exports.policies = {
 
   gauge: {
 
-    '*': true,//'sessionAuth',
+    '*': 'sessionAuth',
     'index': true,
     'view': true
 
