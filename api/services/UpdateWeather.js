@@ -2,70 +2,66 @@ var Promise = require("bluebird"),
     request = Promise.promisify(require("request")),
     moment  = require('moment');
 
-module.exports = {
+Promise.longStackTraces();
 
 
-  _fetchGauges: function() {
-    return Gauge.find({where: {status: 'on'}});
-  },
+var Updater = function updateWeather(gauge, callback) {
 
 
-  _saveWeather: function(metric) {
-
+  this.saveWeather = function(metric) {
     return Weather.create(metric);
-  },
+  };
 
 
-  _request: function(gauge) {
-    var _this = this;
+  this.request = function() {
+    var self = this;
 
     return request({
-      url: 'https://api.forecast.io/forecast/'+sails.config.forecastIO.apiKey+'/'+gauge.latitude+','+gauge.longitude,
+      url: 'https://api.forecast.io/forecast/'+sails.config.forecastIO.apiKey+'/'+this.gauge.latitude+','+this.gauge.longitude,
       gzip: true
     })
     .then(function(result) {
       var data = JSON.parse(result[0].body);
 
-      data['gauge'] = gauge.id;
+      data['gauge'] = self.gauge.id;
       return data;
-    })
-    .catch(function(err) {
-      console.log(err);
     });
-  },
+  };
 
 
-  _prune: function() {
+  this.prune = function() {
 
-    return Weather.destroy();
-  },
-
-
-  run: function() {
-    var _this = this;
-
-    return this._prune()
-    .then(function() {
-      return _this._fetchGauges();
-    })
-    .then(function(gauges) {
-      return Promise.map(gauges, _this._request);
-    })
-    .map(function(data) {
-      return _this._saveWeather(data);
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-  },
+    return Weather.destroy({gauge: this.gauge.id});
+  };
 
 
-  update: function(gauge) {
-    var _this = this;
+  this.run = function() {
+    var self = this;
 
-    return this._request(gauge)
+    return this.request()
     .then(function(data) {
-      return _this._saveWeather(data);
-    });
+
+      return self.prune()
+      .then(function() {
+        return data;
+      });
+
+    })
+    .then(function(data) {
+      return self.saveWeather(data);
+    })
+    .done();
   }
+
 };
+
+
+function WeatherUpdater(gauge) {
+
+  this.gauge = gauge;
+};
+
+
+WeatherUpdater.prototype = new Updater();
+
+module.exports = WeatherUpdater;

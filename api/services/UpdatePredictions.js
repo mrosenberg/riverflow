@@ -4,32 +4,28 @@ var Promise  = require("bluebird"),
     moment   = require('moment');
 
 
-module.exports = {
+Promise.longStackTraces();
+
+var Updater = function UpdatePredictions() {
 
 
-  _fetchGauges: function() {
+  this.prune = function() {
 
-    return Gauge.find({where: {status: 'on'}});
-  },
-
-
-  _savePrediction: function(metric) {
-
-    return Prediction.create(metric);
-  },
+    return Prediction.destroy({where: {gauge: this.gauge.id}});
+  };
 
 
-  _parse: function(gauge, data) {
+  this.parse = function(data) {
+    var values = [];
 
-    return data.map(function(metric) {
-      var values = [];
+    data.map(function(metric) {
 
       values.push({
         dateTime: metric.valid[0]._,
         variableName: metric.primary[0]['$'].name,
         unitAbbreviation: metric.primary[0]['$'].units,
         value: metric.primary[0]._,
-        gauge: gauge.id
+        gauge: this.gauge.id
       });
 
       values.push({
@@ -37,63 +33,62 @@ module.exports = {
         variableName: metric.secondary[0]['$'].name,
         unitAbbreviation: metric.secondary[0]['$'].units,
         value: metric.secondary[0]._,
-        gauge: gauge.id
+        gauge: this.gauge.id
       });
 
-      return values;
-    });
-  },
+    }, this);
+
+    return values;
+  };
 
 
-  _request: function(gauge) {
-    var _this = this;
+  this.savePrediction = function(metric) {
+    return Prediction.create(metric);
+  };
+
+
+  this.request = function() {
 
     return request({
-      url: 'http://water.weather.gov/ahps2/hydrograph_to_xml.php?output=xml&gage='+gauge.nwsID,
+      url: 'http://water.weather.gov/ahps2/hydrograph_to_xml.php?output=xml&gage='+this.gauge.nwsID,
       gzip: true
     })
+    .bind(this)
     .then(function(data) {
       return parseXML(data[0].body);
     })
     .then(function(data) {
-      return _this._parse(gauge, data.site.forecast[0].datum);
+      return this.parse(data.site.forecast[0].datum);
     });
-  },
+  };
 
+  this.run = function() {
 
-  _prune: function() {
-    return Prediction.destroy();
-  },
-
-
-  run: function() {
-    var _this = this;
-
-    return this._prune()
-    .then(function() {
-      return _this._fetchGauges();
-    })
-    .then(function(gauges) {
-      return Promise.map(gauges, _this._request);
-    })
-    .map(function(data) {
-      return Promise.map(data, _this._savePrediction);
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-  },
-
-
-  update: function(gauge) {
-    var _this = this;
-
-    if(!gauge.usgsID) return;
-
-    return this._request(gauge)
+    return this.request().bind(this)
     .then(function(data) {
-      return Promise.map(data, _this._savePrediction);
-    });
-  }
+
+      return this.prune()
+      .then(function() {
+        return data;
+      });
+    })
+    .then(function(data) {
+      return this.savePrediction(data);
+    })
+    .done();
+  };
+
 
 };
+
+
+function PredictionsUpdater(gauge) {
+
+  this.gauge = gauge;
+};
+
+
+PredictionsUpdater.prototype = new Updater();
+
+module.exports = PredictionsUpdater;
+

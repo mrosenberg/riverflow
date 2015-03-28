@@ -8,12 +8,14 @@ var Promise = require("bluebird");
 
 module.exports = {
 
+
   index: function(req, res, next) {
     res.view({
       title: 'Home',
       bodyClasses: 'home'
     });
   },
+
 
   about: function(req, res, next) {
     res.view({
@@ -22,6 +24,7 @@ module.exports = {
     });
   },
 
+
   swatches: function(req, res, next) {
     res.view({
       title: 'swatches',
@@ -29,29 +32,43 @@ module.exports = {
     });
   },
 
+
   cron: function(req, res, next) {
 
-    Promise.all([
-      UpdateMeasurements.run(),
-      UpdatePredictions.run(),
-      UpdateWeather.run()
-    ])
-    .then(function() {
+    Gauge.find({where: {status: 'on'}})
+    .then(function(gauges) {
 
-      return Gauge.find()
+      return Promise.map(gauges, function(gauge) {
+        return new UpdateWeather(gauge).run();
+      })
+      .then(function() {
+        return gauges;
+      });
+
     })
-    .map(function(gauge) {
+    .then(function(gauges) {
 
-      return Gauge.update({id:gauge.id}, {updatedAt: new Date()});
+      return Promise.map(gauges, function(gauge) {
+        return new UpdatePredictions(gauge).run();
+      })
+      .then(function() {
+        return gauges;
+      });
+
+    })
+    .then(function(gauges) {
+
+      return Promise.map(gauges, function(gauge) {
+        return new UpdateMeasurements(gauge).run();
+      })
+      .then(function() {
+        return gauges;
+      });
+
     })
     .then(function() {
-
       console.log('Cron Update Complete');
       res.send();
-    })
-    .catch(function(err) {
-
-      console.log(err);
     });
   }
 };

@@ -2,19 +2,15 @@ var Promise = require("bluebird"),
     request = Promise.promisify(require("request")),
     moment  = require('moment');
 
-module.exports = {
+Promise.longStackTraces();
+
+ var Updater = function UpdateMeasurements() {
 
 
-  _fetchGauges: function() {
-
-    return Gauge.find({where: {status: 'on'}});
-  },
-
-
-  _saveMeasurement: function(metric) {
+  this.saveMeasurement = function(metric) {
 
     return Measurement.create({
-      gauge: metric._parent.id,
+      gauge: this.gauge.id,
       dateTime: metric.values[0].value[0].dateTime,
       variableID: metric.variable.variableCode[0].variableID,
       variableName: metric.variable.variableName,
@@ -22,73 +18,67 @@ module.exports = {
       value: metric.values[0].value[0].value,
       unitAbbreviation: metric.variable.unit.unitAbbreviation
     });
-  },
+  };
 
 
-  _parse: function(gauge, data) {
+  this.parse = function(gauge, data) {
 
     return JSON.parse(data).value.timeSeries.map(function(metric) {
-      metric._parent = gauge;
       return metric;
     });
-  },
+  };
 
 
-  _request: function(gauge) {
-    var _this = this;
-
-    if(!gauge.usgsID) return;
+  this.request = function(gauge) {
 
     return request({
-      url: 'http://waterservices.usgs.gov/nwis/iv/?format=json&sites='+gauge.usgsID,
+      url: 'http://waterservices.usgs.gov/nwis/iv/?format=json&sites='+this.gauge.usgsID,
       gzip: true
     })
+    .bind(this)
     .then(function(data) {
-      return _this._parse(gauge, data[0].body);
+      return this.parse(this.gauge, data[0].body);
     });
-  },
+  };
 
 
-  _prune: function() {
+  this.prune = function() {
 
     return Measurement.destroy({
       dateTime: {
         '=<' : moment().subtract(1, 'day').toDate()
       }
     });
-  },
+  };
 
 
-  run: function() {
-    var self = this,
-        cache;
+  this.run = function() {
 
-    return this._prune()
-    .then(function() {
-      return self._fetchGauges();
-    })
-    .then(function(gauges) {
-      cache = gauges;
-      return Promise.map(gauges, self._request);
-    })
-    .map(function(data) {
-      return Promise.map(data, self._saveMeasurement);
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-  },
-
-
-  update: function(gauge) {
-    var self = this;
-
-    if(!gauge.usgsID) return;
-
-    return this._request(gauge)
+    return this.request().bind(this)
     .then(function(data) {
-      return Promise.map(data, self._saveMeasurement);
-    });
-  }
+
+      return this.prune()
+      .then(function() {
+        return data;
+      });
+    })
+    .then(function(data) {
+
+      return this.saveMeasurement(data[0]);
+    })
+    .done();
+
+  };
 
 };
+
+
+function MeasurementsUpdater(gauge) {
+
+  this.gauge = gauge;
+};
+
+
+MeasurementsUpdater.prototype = new Updater();
+
+module.exports = MeasurementsUpdater;
