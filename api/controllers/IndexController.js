@@ -66,6 +66,13 @@ module.exports = {
       });
 
     })
+    .then(function(gauges) {
+      return Promise.map(gauges, function(gauge) {
+        Gauge.update(gauge.id, {
+          updatedAt: new Date()
+        }, function(err, results) {});
+      });
+    })
     .then(function() {
       console.log('Cron Update Complete');
       res.send();
