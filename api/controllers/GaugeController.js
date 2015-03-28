@@ -7,7 +7,9 @@
 
 var Promise = require('bluebird'),
     moment  = require('moment-timezone'),
-    numeral = require('numeral');
+    numeral = require('numeral'),
+    uuid    = require('node-uuid');
+
 
 
 function heightChart(gauge) {
@@ -285,7 +287,8 @@ module.exports = {
         title: '',
         bodyClasses: '',
         rivers:rivers,
-        timeZones: moment.tz.names()
+        timeZones: moment.tz.names(),
+        id: uuid.v4()
       });
     });
   },

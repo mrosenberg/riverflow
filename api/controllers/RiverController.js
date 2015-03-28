@@ -5,7 +5,8 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var moment = require('moment-timezone');
+var moment = require('moment-timezone'),
+    uuid    = require('node-uuid');
 
 
 module.exports = {
@@ -65,7 +66,8 @@ module.exports = {
   new: function(req, res) {
     res.view({
       title: '',
-      bodyClasses: ''
+      bodyClasses: '',
+      id: uuid.v4()
     });
   },
 

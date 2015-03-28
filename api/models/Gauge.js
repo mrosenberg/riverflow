@@ -5,9 +5,7 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
-var Promise = require('bluebird'),
-    uuid    = require('node-uuid');
-
+var Promise = require('bluebird');
 
 module.exports = {
 
@@ -99,11 +97,11 @@ module.exports = {
     upstreamGauge: {
       model: 'gauge'
     }
-  },
+  }
 
 
-  beforeValidate: function(values, next) {
-    values.id = values.id || uuid.v4();
-    return next();
-  },
+  // beforeValidate: function(values, next) {
+  //   values.id = values.id || uuid.v4();
+  //   return next();
+  // },
 };
