@@ -17,6 +17,8 @@ Promise.longStackTraces();
       variableDescription: metric.variable.variableDescription,
       value: metric.values[0].value[0].value,
       unitAbbreviation: metric.variable.unit.unitAbbreviation
+    },function() {
+
     });
   };
 
@@ -64,7 +66,7 @@ Promise.longStackTraces();
     })
     .then(function(data) {
 
-      return this.saveMeasurement(data[0]);
+      return data.map(this.saveMeasurement, this);
     })
     .done();
 
