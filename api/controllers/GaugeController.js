@@ -307,8 +307,9 @@ module.exports = {
       }
 
       Promise.all([
-        UpdateMeasurements.update(gauge),
-        UpdatePredictions.update(gauge)
+        UpdateMeasurements(gauge).run(),
+        UpdatePredictions(gauge).run(),
+        UpdateWeather(gauge).run()
       ])
       .then(function() {
         res.redirect('gauges/view/' + gauge.id);

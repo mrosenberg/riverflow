@@ -13,9 +13,10 @@
  * or any other Grunt tasks you like.)
  */
 
-@import 'foundation';
 @import '_variables';
+@import 'foundation';
 @import '_home';
+@import '_header';
 @import '_auto-search';
 @import '_gauge';
 @import '_register';
@@ -40,15 +41,12 @@ ul {
   list-style: none;
 }
 
-a {
-  color: $primary-1;
-  text-decoration: none;
-}
 
 table {
   width:100%;
   background:none;
 }
+
 
 
 

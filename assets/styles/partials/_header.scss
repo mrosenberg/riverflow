@@ -1,0 +1,25 @@
+.off-canvas-wrap.move-right {
+  position: fixed;
+  top: 0;
+}
+
+nav.tab-bar {
+  position: fixed;
+  width:100%;
+  z-index:2;
+
+  .left-small {
+    border-right: none;
+  }
+
+  .tab-bar-section.middle {
+    text-align: left;
+  }
+}
+
+
+
+section.main-section {
+  margin-top: 2.8125rem;
+  margin-bottom: 2.8125rem;
+}

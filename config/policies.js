@@ -38,6 +38,8 @@ module.exports.policies = {
   index: {
     'index': true,
     'cron': true,
+    'swatches': true,
+    'about': true,
     '*': 'sessionAuth'
   },
 
