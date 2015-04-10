@@ -76,7 +76,8 @@ module.exports = {
     .then(function() {
       console.log('Cron Update Complete');
       res.send();
-    });
+    })
+    .done()
   }
 };
 

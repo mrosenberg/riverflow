@@ -12,6 +12,7 @@ var Updater = function UpdatePredictions() {
   this.prune = function() {
 
     return Prediction.destroy({where: {gauge: this.gauge.id}});
+
   };
 
 
@@ -61,6 +62,7 @@ var Updater = function UpdatePredictions() {
       return this.parse(data.site.forecast[0].datum);
     });
   };
+
 
   this.run = function() {
 

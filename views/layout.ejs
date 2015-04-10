@@ -10,6 +10,7 @@
 
 
 
+
     <!--
         Stylesheets and Preprocessors
         ==============================
@@ -32,7 +33,7 @@
     -->
 
     <!--STYLES-->
-    <link rel="stylesheet" href="/min/production.min.css">
+    <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
 
     <% if ('production' === process.env.NODE_ENV) { %>
@@ -149,7 +150,15 @@
     -->
 
     <!--SCRIPTS-->
-    <script src="/min/production.min.js"></script>
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/dependencies/jquery.js"></script>
+    <script src="/js/dependencies/moment.js"></script>
+    <script src="/js/foundation.js"></script>
+    <script src="/js/highcharts.js"></script>
+    <script src="/js/moment-timezone-with-data-2010-2020.js"></script>
+    <script src="/js/skycons.js"></script>
+    <script src="/js/typeahead.js"></script>
+    <script src="/js/z-main.js"></script>
     <!--SCRIPTS END-->
     <script>
       $(document).foundation();
