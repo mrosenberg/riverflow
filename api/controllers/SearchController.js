@@ -1,4 +1,4 @@
-var Q = require('q');
+var Promise = require('bluebird');
 
 /**
  * SearchController
@@ -37,7 +37,7 @@ module.exports = {
 
 
   _searchCombined: function(term) {
-    return Q.all([
+    return Promise.all([
       this._searchRivers(term),
       this._searchGauges(term)
     ]);
