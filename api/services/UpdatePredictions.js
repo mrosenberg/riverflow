@@ -69,10 +69,7 @@ var Updater = function UpdatePredictions() {
     return this.request().bind(this)
     .then(function(data) {
 
-      return this.prune()
-      .then(function() {
-        return data;
-      });
+      return this.prune();
     })
     .then(function(data) {
       return this.savePrediction(data);

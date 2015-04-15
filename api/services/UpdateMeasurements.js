@@ -46,9 +46,10 @@ Promise.longStackTraces();
 
   this.prune = function() {
 
-    return Measurement.destroy({
+    return Measurement.destroy(where: {
+      gauge: this.gauge.id,
       dateTime: {
-        '>=' : moment().subtract(1, 'day').toDate()
+        '<=' : moment().subtract(1, 'day').toISOString()
       }
     });
   };
@@ -59,10 +60,8 @@ Promise.longStackTraces();
     return this.request().bind(this)
     .then(function(data) {
 
-      return this.prune()
-      .then(function() {
-        return data;
-      });
+      return this.prune();
+
     })
     .then(function(data) {
 
