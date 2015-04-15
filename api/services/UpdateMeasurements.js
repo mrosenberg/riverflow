@@ -17,8 +17,6 @@ Promise.longStackTraces();
       variableDescription: metric.variable.variableDescription,
       value: metric.values[0].value[0].value,
       unitAbbreviation: metric.variable.unit.unitAbbreviation
-    },function() {
-
     });
   };
 
