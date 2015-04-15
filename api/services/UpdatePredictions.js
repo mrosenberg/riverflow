@@ -65,14 +65,18 @@ var Updater = function UpdatePredictions() {
 
 
   this.run = function() {
+    var self = this;
 
-    return this.request().bind(this)
+    return this.request()
     .then(function(data) {
 
-      return this.prune();
+      return self.prune().then(function() {
+        return data;
+      });
+
     })
     .then(function(data) {
-      return this.savePrediction(data);
+      return self.savePrediction(data);
     })
     .done();
   };

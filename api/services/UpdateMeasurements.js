@@ -48,7 +48,7 @@ Promise.longStackTraces();
       where: {
         gauge: this.gauge.id,
         dateTime: {
-          '<=' : moment().subtract(1, 'day').toISOString()
+          '<' : moment().subtract(1, 'day').toISOString()
         }
       }
     });
@@ -60,7 +60,9 @@ Promise.longStackTraces();
     return this.request().bind(this)
     .then(function(data) {
 
-      return this.prune();
+      return this.prune().then(function() {
+        return data;
+      });
 
     })
     .then(function(data) {
