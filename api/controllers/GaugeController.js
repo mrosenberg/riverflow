@@ -357,6 +357,7 @@ module.exports = {
 
 
   view: function(req, res, next) {
+    var metrics, message;
 
     Gauge.findOne(req.param('id'))
     .populate('measurements', {sort: 'dateTime ASC'})
@@ -366,24 +367,33 @@ module.exports = {
       if (err) return next(err);
       if (!gauge) return next();
 
-      var flow = _.filter(gauge.measurements, {variableID: 45807197});
-      var height = _.filter(gauge.measurements, {variableID: 45807202});
 
-      res.view({
-        title: gauge.name,
-        bodyClasses: 'view gauge',
-        gauge: gauge,
-        skycon: gauge.weather[0].currently.icon,
-        updatedAgo: moment(gauge.updatedAt).from(),
-        weather: gauge.weather[0],
-        measurements: gauge.measurements,
-        prediction: gauge.predictions,
-        flow: numeral(flow[0].value).format('0,0'),
-        height: height[0],
-        timeZone: gauge.timeZone,
-        heightChart: JSON.stringify(heightChart(gauge)),
-        flowChart: JSON.stringify(flowChart(gauge))
-      });
+      try {
+        res.view({
+          title: gauge.name,
+          bodyClasses: 'view gauge',
+          gauge: gauge,
+          skycon: gauge.weather[0].currently.icon,
+          updated: moment(gauge.updatedAt).from(),
+          weather: gauge.weather[0],
+          measurements: gauge.measurements,
+          prediction: gauge.predictions,
+          flow: numeral(_.filter(gauge.measurements, {variableID: 45807197})[0].value).format('0,0'),
+          height: _.filter(gauge.measurements, {variableID: 45807202})[0],
+          timeZone: gauge.timeZone,
+          heightChart: JSON.stringify(heightChart(gauge)),
+          flowChart: JSON.stringify(flowChart(gauge)),
+          message: message
+        });
+      }
+      catch(e) {
+        sails.log.error(e);
+        res.view('500', {
+          title: gauge.name,
+          bodyClasses: 'view gauge error'
+        });
+      }
+
     });
   },
 
