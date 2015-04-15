@@ -48,7 +48,7 @@ Promise.longStackTraces();
 
     return Measurement.destroy({
       dateTime: {
-        '=<' : moment().subtract(1, 'day').toDate()
+        '>=' : moment().subtract(1, 'day').toDate()
       }
     });
   };
