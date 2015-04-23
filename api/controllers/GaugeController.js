@@ -19,6 +19,9 @@ function heightChart(gauge) {
   })
   .map(function(datum) {
     return [moment(datum.dateTime).valueOf(), +datum.value];
+  })
+  .sort(function(a,b) {
+    return a[0] - b[0];
   });
 
 
@@ -27,6 +30,9 @@ function heightChart(gauge) {
   })
   .map(function(datum) {
     return [moment(datum.dateTime).valueOf(), +datum.value];
+  })
+  .sort(function(a,b) {
+    return a[0] - b[0];
   });
 
   return {
@@ -149,6 +155,7 @@ function heightChart(gauge) {
   }
 }
 
+
 function flowChart(gauge) {
 
   var observedFlowChartData = gauge.measurements.filter(function(datum) {
@@ -156,6 +163,9 @@ function flowChart(gauge) {
   })
   .map(function(datum) {
     return [moment(datum.dateTime).valueOf(), +datum.value];
+  })
+  .sort(function(a,b) {
+    return a[0] - b[0];
   });
 
 
@@ -164,6 +174,9 @@ function flowChart(gauge) {
   })
   .map(function(datum) {
     return [moment(datum.dateTime).valueOf(), +datum.value * 1000];
+  })
+  .sort(function(a,b) {
+    return a[0] - b[0];
   });
 
   return {

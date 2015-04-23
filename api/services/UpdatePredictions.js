@@ -70,7 +70,7 @@ var Updater = function UpdatePredictions() {
     return this.request()
     .then(function(data) {
 
-      return self.prune().then(function() {
+      return self.prune().then(function(results) {
         return data;
       });
 
