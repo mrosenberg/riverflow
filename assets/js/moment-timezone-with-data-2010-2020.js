@@ -1,1 +1,0 @@
-../../bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js

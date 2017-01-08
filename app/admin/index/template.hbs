@@ -1,0 +1,42 @@
+<div class="flex layout-column">
+
+  {{#paper-toolbar}}
+
+    {{#paper-toolbar-tools}}
+
+    <h2>Admin</h2>
+
+    {{/paper-toolbar-tools}}
+
+  {{/paper-toolbar}}
+
+
+  <div class="layout-column">
+
+    {{#paper-card as |card|}}
+
+      {{#card.title as |title|}}
+
+        {{#title.text as |text|}}
+
+          {{#text.headline}}
+
+            Riverflow Admin
+
+          {{/text.headline}}
+
+        {{/title.text}}
+
+      {{/card.title}}
+
+      {{#card.content}}
+
+        Please select an area to edit.
+
+      {{/card.content}}
+
+    {{/paper-card}}
+
+</div>
+</div>
+

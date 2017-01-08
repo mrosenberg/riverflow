@@ -1,1 +1,0 @@
-../../bower_components/highcharts-release/highcharts.src.js
