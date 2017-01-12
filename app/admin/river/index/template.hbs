@@ -1,0 +1,15 @@
+{{#paper-list}}
+
+  {{#each model as |river|}}
+
+    {{#paper-item class="md-3-line"}}
+
+      <div class="md-list-item-text">
+        <h3>{{link-to river.name 'admin.river.edit' river.id}}</h3>
+      </div>
+
+    {{/paper-item}}
+
+  {{/each}}
+
+{{/paper-list}}

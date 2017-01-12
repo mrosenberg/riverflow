@@ -1,0 +1,13 @@
+{{#paper-form onSubmit="submit" as |form|}}
+
+  <div class="layout-row">
+
+    <div class="layout-column flex-50">
+
+      {{form.input label="Name" value=model.name onChange=(action (mut model.name)) required=true}}
+
+    </div> {{!-- col --}}
+
+  </div> {{!-- row --}}
+
+{{/paper-form}}

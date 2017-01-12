@@ -1,1 +1,100 @@
-{{outlet}}
+{{#paper-form onSubmit="submit" as |form|}}
+
+  <div class="layout-row">
+
+    <div class="layout-column flex-50">
+
+      {{form.input label="Name" value=model.name onChange=(action (mut model.name)) required=true}}
+
+    </div> {{!-- col --}}
+
+  </div> {{!-- row --}}
+
+
+  <div class="layout-row">
+
+    <div class="layout-column flex-50">
+
+      {{form.input label="USGS ID" value=model.usgsId onChange=(action (mut model.usgsId))}}
+
+    </div>
+
+    <div class="layout-column flex-50">
+
+      {{form.input label="NWS ID" value=model.nwsId onChange=(action (mut model.nwsId))}}
+
+    </div>
+
+  </div> {{!-- row --}}
+
+
+  <div class="layout-row">
+
+    <div class="layout-column flex-25">
+
+      {{form.input label="Action" value=model.actionStage onChange=(action (mut model.actionStage))}}
+
+    </div>
+
+    <div class="layout-column flex-25">
+
+      {{form.input label="Minor" value=model.minorStage onChange=(action (mut model.minorStage))}}
+
+    </div>
+
+    <div class="layout-column flex-25">
+
+      {{form.input label="Moderate" value=model.moderateStage onChange=(action (mut model.moderateStage))}}
+
+    </div>
+
+    <div class="layout-column flex-25">
+
+      {{form.input label="Major" value=model.majorStage onChange=(action (mut model.majorStage))}}
+
+    </div>
+
+  </div> {{!-- row --}}
+
+
+  <div class="layout-row">
+
+    <div class="layout-column flex-50">
+
+      {{form.input label="River ID" value=model.river.id onChange=(action (mut model.river.id))}}
+
+    </div>
+
+    <div class="layout-column flex-50">
+
+      {{form.input label="State ID" value=model.state.id onChange=(action (mut model.state.id))}}
+
+    </div>
+
+  </div> {{!-- row --}}
+
+
+  <div class="layout-row">
+
+    <div class="layout-column flex-50">
+
+      {{form.input label="Upstream Gauge ID" value=model.upstreamGauge.id onChange=(action (mut model.upstreamGauge.id))}}
+
+    </div>
+
+    <div class="layout-column flex-50">
+
+      {{form.input label="Downstream Gauge ID" value=downstreamGauge.id onChange=(action (mut model.downstreamGauge.id))}}
+
+    </div>
+
+  </div> {{!-- row --}}
+
+
+  <div class="layout-row">
+
+    {{#form.submit-button raised=true primary=true}}Submit{{/form.submit-button}}
+
+  </div>
+
+{{/paper-form}}

@@ -1,4 +1,4 @@
-export default function(/* server */) {
+export default function( server ) {
 
   /*
     Seed your development database using your factories.
@@ -7,5 +7,13 @@ export default function(/* server */) {
     Make sure to define a factory for each model you want to create.
   */
 
-  // server.createList('post', 10);
+  server.createList( 'state', 10 )
+  .forEach( state => {
+
+    server.createList( 'river', 5, { state } )
+    .forEach( river => {
+
+      server.createList( 'gauge', 3, { river, state } );
+    });
+  });
 }

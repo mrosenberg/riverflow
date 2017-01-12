@@ -1,7 +1,14 @@
 import DS from 'ember-data';
-const { Model, attr } = DS;
+const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
+
+
+
+  'name':          attr( 'string' ),
+
+
+  'status':        attr( 'string' ),
 
 
   'timeZone':      attr( 'string' ),
@@ -11,12 +18,6 @@ export default Model.extend({
 
 
   'nwsId':         attr( 'string' ),
-
-
-  'name':          attr( 'string' ),
-
-
-  'status':        attr( 'string' ),
 
 
   'latitude':      attr( 'number' ),
@@ -56,12 +57,10 @@ export default Model.extend({
   'state':           belongsTo( 'state' ),
 
 
-  'upstreamGauge':   belongsTo( 'gauge' ),
+  'upstreamGauge':   belongsTo( 'gauge', { inverse: null } ),
 
 
-  'downstreamGauge': belongsTo( 'gauge' )
-
-
+  'downstreamGauge': belongsTo( 'gauge', { inverse: null } )
 
 
 });

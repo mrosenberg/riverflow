@@ -1,1 +1,47 @@
-{{outlet}}
+{{#paper-sidenav-container class="inner-sidenav"}}
+
+  {{#paper-sidenav
+    class="md-whiteframe-z2"
+    name="left"
+    open=leftSideBarOpen
+    onToggle=(action (mut leftSideBarOpen))
+  }}
+
+    {{#paper-content padding=true}}
+
+      <ul>
+
+        <li>{{link-to 'Gauges' 'gauge.index'}}</li>
+
+      </ul>
+
+    {{/paper-content}}
+
+
+    {{#paper-toolbar as |toolbar|}}
+
+      {{#paper-toolbar-tools}}
+        Admin Options
+      {{/paper-toolbar-tools}}
+
+    {{/paper-toolbar}}
+
+    {{#paper-content padding=true}}
+
+      <ul>
+
+        <li>{{link-to 'Gauges' 'admin.gauge'}}</li>
+
+        <li>{{link-to 'Rivers' 'admin.river'}}</li>
+
+        <li>{{link-to 'States' 'admin.state'}}</li>
+
+      </ul>
+
+    {{/paper-content}}
+
+  {{/paper-sidenav}}
+
+  {{outlet}}
+
+{{/paper-sidenav-container}}

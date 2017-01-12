@@ -1,0 +1,30 @@
+{{#leaflet-map
+  bounds=fitBounds
+  as |layers|
+}}
+
+  {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+
+  {{#marker-cluster-layer}}
+
+    {{#each markers as |marker|}}
+
+      {{#marker-layer
+        location=marker.location
+        onDblclick=(action 'edit' marker)
+      }}
+
+        {{#x-map-popup}}
+
+          <h3>Gauge: {{marker.name}}</h3>
+          <p>River: {{marker.river}}</p>
+
+        {{/x-map-popup}}
+
+      {{/marker-layer}}
+
+    {{/each}}
+
+  {{/marker-cluster-layer}}
+
+{{/leaflet-map}}

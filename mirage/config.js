@@ -1,26 +1,39 @@
 export default function() {
 
-  // These comments are here to help you get started. Feel free to delete them.
+  /*
+   * Setup
+   *
+  */
+  this.urlPrefix = 'http://localhost:3000';
+
+
 
   /*
-    Config (with defaults).
-
-    Note: these only affect routes defined *after* them!
+   * Routes
+   *
   */
 
-  // this.urlPrefix = '';    // make this `http://localhost:8080`, for example, if your API is on a different server
-  // this.namespace = '';    // make this `api`, for example, if your API is namespaced
-  // this.timing = 400;      // delay for each request, automatically set to 0 during testing
+  // States
+  this.resource( '/states' );
+  this.get( '/admin/states', 'state' );
+  this.get( '/admin/states/:id', ( { states }, request ) => {
+    return states.find( request.params.id );
+  });
 
-  /*
-    Shorthand cheatsheet:
 
-    this.get('/posts');
-    this.post('/posts');
-    this.get('/posts/:id');
-    this.put('/posts/:id'); // or this.patch
-    this.del('/posts/:id');
+  // Rivers
+  this.resource( '/rivers' );
+  this.get( '/admin/rivers', 'river' );
+  this.get( '/admin/rivers/:id', ( { rivers }, request ) => {
+    return rivers.find( request.params.id );
+  });
 
-    http://www.ember-cli-mirage.com/docs/v0.2.x/shorthands/
-  */
+
+  // Gauges
+  this.resource( '/gauges' );
+  this.get( '/admin/gauges', 'gauge' );
+  this.get( '/admin/gauges/:id', ( { gauges }, request ) => {
+    return adminGauges.find( request.params.id );
+  });
+
 }

@@ -25,6 +25,17 @@ module.exports = function(environment) {
 
   if (environment === 'development') {
 
+
+    ENV.apiLocation = 'http://localhost:3000';
+
+
+    ENV['ember-cli-mirage'] = {
+
+      enabled: true
+
+    };
+
+
     ENV.contentSecurityPolicy = {
       'default-src': "'none'",
       'script-src':  "'self' 'unsafe-inline'",
